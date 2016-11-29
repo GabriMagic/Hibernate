@@ -23,11 +23,11 @@
 			ejecuto crea las tablas -->
 		<property name="hbm2ddl.auto">create-drop</property>
 		<!-- Mapea las siguientes clases anotadas -->
-		<mapping class="aed.model.Autores" />
-		<mapping class="aed.model.DepositoLegal" />
-		<mapping class="aed.model.Ejemplares" />
 		<mapping class="aed.model.Libros" />
+		<mapping class="aed.model.Autores" />
+		<mapping class="aed.model.Ejemplares" />
 		<mapping class="aed.model.LibrosAutores" />
+		<mapping class="aed.model.DepositoLegal" />
 
 	</session-factory>
 </hibernate-configuration>
