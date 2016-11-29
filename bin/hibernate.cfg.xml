@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!DOCTYPE hibernate-configuration PUBLIC
- "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
- "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
 		<!-- Configuración de conexión a la base de datos -->
@@ -13,20 +12,22 @@
 		<property name="connection.pool_size">1</property>
 		<!-- Dialecto SQL -->
 		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<!-- Habilita el gestor de contextos de sesión automático de Hibernate -->
+		<property name="current_session_context_class">thread</property>
+		<!-- Desactiva la caché de segundo nivel -->
+		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
 		<!-- Muestra en la consola todas las consultas SQL ejecutadas -->
 		<property name="show_sql">true</property>
-		<!-- Elimina y vuelve a crear el esquema de la base de datos al iniciar 
-			si siempre esta sin comentar cada vez que lo ejecuto crea las tablas para 
-			ello poner create-drop, si no quiero que vuelva a crear las tablas pondré 
-			update -->
-		<property name="hbm2ddl.auto">update</property>
-		<!-- Mapea las siguientes clases anotadas si trabajásemos con mapeo XML 
-			en lugar de class pondríamos resource -->
+		<!-- Update si no existe lo crea Elimina y vuelve a crear el esquema de 
+			la base de datos al iniciar si siempre esta sin comentar cada vez que lo 
+			ejecuto crea las tablas -->
+		<property name="hbm2ddl.auto">create-drop</property>
+		<!-- Mapea las siguientes clases anotadas -->
 		<mapping class="aed.model.Autores" />
 		<mapping class="aed.model.DepositoLegal" />
 		<mapping class="aed.model.Ejemplares" />
 		<mapping class="aed.model.Libros" />
 		<mapping class="aed.model.LibrosAutores" />
-		<!--la siguiente linea solo en el caso de usar mapeo con ficheros xml -->
+
 	</session-factory>
-</hibernate-configuration> 
+</hibernate-configuration>
