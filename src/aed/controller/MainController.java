@@ -19,9 +19,9 @@ public class MainController implements Initializable {
 
 	public MainController() {
 
-//		Session session = HibernateUtil.getSessionFactory().openSession();
-//		session.beginTransaction();
-//		session.close();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.close();
 
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/MainView.fxml"));
