@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.hibernate.Session;
+
+import aed.model.HibernateUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,12 +19,12 @@ public class MainController implements Initializable {
 
 	public MainController() {
 
-		// Session session = HibernateUtil.getSessionFactory().openSession();
-		// session.beginTransaction();
-		// session.close();
+//		Session session = HibernateUtil.getSessionFactory().openSession();
+//		session.beginTransaction();
+//		session.close();
 
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/MainView.fxml"));
 			loader.setController(this);
 			view = loader.load();
 		} catch (IOException e) {

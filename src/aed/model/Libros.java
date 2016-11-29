@@ -10,9 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "libros")
+@SuppressWarnings("serial")
 public class Libros implements Serializable {
 
 	@Id
@@ -25,6 +25,7 @@ public class Libros implements Serializable {
 	@Column(columnDefinition = "VARCHAR(20)")
 	private String ISBN;
 
+	@Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
 	private Date fechaIntro;
 
 	public int getCodLibro() {

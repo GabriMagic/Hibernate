@@ -8,9 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "librosautores")
+@SuppressWarnings("serial")
 public class LibrosAutores implements Serializable {
 
 	@Id

@@ -7,14 +7,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 
 @SuppressWarnings("serial")
-public class DepositoLegal  implements Serializable{
+public class DepositoLegal implements Serializable {
 
 	@Id
-	@JoinColumn(name="Libros")
+	@JoinColumn(name = "Libros")
 	private Libros codLibroDeposito;
-	
-	@Column(columnDefinition="VARCHAR(20)")
+
+	@Column(columnDefinition = "VARCHAR(20)")
 	private String depositoLegal;
 
+	public Libros getCodLibroDeposito() {
+		return codLibroDeposito;
+	}
 
+	public String getDepositoLegal() {
+		return depositoLegal;
+	}
 }
