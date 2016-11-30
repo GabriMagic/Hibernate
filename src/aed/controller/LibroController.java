@@ -12,54 +12,48 @@ import javafx.scene.layout.VBox;
 
 public class LibroController {
 
-	private VBox view;
-
 	@FXML
 	private TableView<Libro> librosTable;
 
 	@FXML
-	private TableColumn<Libro, Integer> codLibroColumn;
+	private TableColumn<Libro, Integer> codColumn;
 
 	@FXML
-	private TableColumn<Libro, String> nombreLibroColumn, ISBNColumn;
+	private TableColumn<Libro, Libro> nombreColumn, isbnColumn;
 
 	@FXML
-	private TableColumn<Libro, Date> fechaIntroColumn;
+	private TableColumn<Libro, Date> fechaColumn;
 
 	public LibroController() {
 
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/librosview.fxml"));
 			loader.setController(this);
-			view = loader.load();
+			librosTable = loader.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public VBox getView() {
-		return view;
-	}
-
 	public TableView<Libro> getLibrosTable() {
 		return librosTable;
 	}
 
-	public TableColumn<Libro, Integer> getCodLibroColumn() {
-		return codLibroColumn;
+	public TableColumn<Libro, Integer> getCodColumn() {
+		return codColumn;
 	}
 
-	public TableColumn<Libro, String> getNombreLibroColumn() {
-		return nombreLibroColumn;
+	public TableColumn<Libro, Libro> getNombreColumn() {
+		return nombreColumn;
 	}
 
-	public TableColumn<Libro, String> getISBNColumn() {
-		return ISBNColumn;
+	public TableColumn<Libro, Libro> getIsbnColumn() {
+		return isbnColumn;
 	}
 
-	public TableColumn<Libro, Date> getFechaIntroColumn() {
-		return fechaIntroColumn;
+	public TableColumn<Libro, Date> getFechaColumn() {
+		return fechaColumn;
 	}
 
 }

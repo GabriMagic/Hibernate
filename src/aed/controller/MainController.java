@@ -45,7 +45,7 @@ public class MainController implements Initializable {
 
 	public MainController() {
 
-		//Cargar la vista principal
+		// Cargar la vista principal
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/MainView.fxml"));
 			loader.setController(this);
@@ -58,9 +58,9 @@ public class MainController implements Initializable {
 		// Cargar las pestañas
 		librosController = new LibroController();
 		autorController = new AutorController();
-		
-		librosTab.setContent(librosController.getView());
-		librosTab.setContent(autorController.getAutoresTable());
+
+		librosTab.setContent(librosController.getLibrosTable());
+		autoresTab.setContent(autorController.getAutoresTable());
 
 		Libro l1 = new Libro();
 		l1.setISBN("98-882-8563-F");
