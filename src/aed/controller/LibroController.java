@@ -107,10 +107,10 @@ public class LibroController {
 			l1.setISBN(isbnText.getText());
 			l1.setFechaIntro(Date.valueOf(LocalDate.now()));
 
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			session.save(l1);
-			session.getTransaction().commit();
+//			session = HibernateUtil.getSessionFactory().openSession();
+//			session.save(l1);
+//			session.beginTransaction();
+//			session.getTransaction().commit();
 
 			stage.close();
 			nombreText.setText("");
