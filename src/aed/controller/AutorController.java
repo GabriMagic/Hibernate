@@ -2,6 +2,8 @@ package aed.controller;
 
 import java.io.IOException;
 
+import org.hibernate.Session;
+
 import aed.model.Autor;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +18,7 @@ public class AutorController {
 	@FXML
 	private TableColumn<Autor, String> codColumn, nombreColumn;
 
-	public AutorController() {
+	public AutorController(Session session) {
 
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/AutoresView.fxml"));

@@ -45,6 +45,9 @@ public class MainController implements Initializable {
 
 	public MainController() {
 
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+
 		// Cargar la vista principal
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/MainView.fxml"));
@@ -56,43 +59,40 @@ public class MainController implements Initializable {
 		}
 
 		// Cargar las pestañas
-		librosController = new LibroController();
-		autorController = new AutorController();
+		librosController = new LibroController(session);
+		autorController = new AutorController(session);
 
 		librosTab.setContent(librosController.getLibrosTable());
 		autoresTab.setContent(autorController.getAutoresTable());
 
-		Libro l1 = new Libro();
-		l1.setISBN("98-882-8563-F");
-		l1.setFechaIntro(Date.valueOf(LocalDate.now()));
-		l1.setNombreLibro("Juego de Tronos");
-
-		Autor a1 = new Autor();
-		a1.setCodAutor("GAB");
-		a1.setNombreAutor("GabriMagic");
-
-		Ejemplar ej1 = new Ejemplar();
-		ej1.setCodEjemplar(1);
-		ej1.setCodLibro(l1);
-		ej1.setImporte(95.30);
-		ej1.setTipo_moneda("EUROS");
-
-		DepositoLegal dl1 = new DepositoLegal();
-		dl1.setCodLibroDeposito(l1);
-		dl1.setDepositoLegal("Que va aqui?");
-
-		LibrosAutores la1 = new LibrosAutores();
-		la1.setCodAutor(a1);
-		la1.setCodLibro(l1);
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-
-		session.save(l1);
-		session.save(a1);
-		session.save(ej1);
-		session.save(dl1);
-		session.save(la1);
+		// Libro l1 = new Libro();
+		// l1.setISBN("98-882-8563-F");
+		// l1.setFechaIntro(Date.valueOf(LocalDate.now()));
+		// l1.setNombreLibro("Juego de Tronos");
+		//
+		// Autor a1 = new Autor();
+		// a1.setCodAutor("GAB");
+		// a1.setNombreAutor("GabriMagic");
+		//
+		// Ejemplar ej1 = new Ejemplar();
+		// ej1.setCodEjemplar(1);
+		// ej1.setCodLibro(l1);
+		// ej1.setImporte(95.30);
+		// ej1.setTipo_moneda("EUROS");
+		//
+		// DepositoLegal dl1 = new DepositoLegal();
+		// dl1.setCodLibroDeposito(l1);
+		// dl1.setDepositoLegal("Que va aqui?");
+		//
+		// LibrosAutores la1 = new LibrosAutores();
+		// la1.setCodAutor(a1);
+		// la1.setCodLibro(l1);
+		//
+		// session.save(l1);
+		// session.save(a1);
+		// session.save(ej1);
+		// session.save(dl1);
+		// session.save(la1);
 
 		session.getTransaction().commit();
 
