@@ -1,5 +1,5 @@
 #Hibernate
-```sh
+
 ```java
 package aed.app;
 
@@ -35,6 +35,5 @@ public class HibernateAPP extends Application {
 		return primaryStage;
 	}
 }
+```
 
-```
-```
