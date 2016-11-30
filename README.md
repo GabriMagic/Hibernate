@@ -1,5 +1,5 @@
 #Hibernate
-```java
+```SQL
 package aed.app;
 
 import aed.controller.MainController;
