@@ -10,7 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 
-public class LibrosController {
+public class LibroController {
 
 	private VBox view;
 
@@ -26,7 +26,7 @@ public class LibrosController {
 	@FXML
 	private TableColumn<Libro, Date> fechaIntroColumn;
 
-	public LibrosController() {
+	public LibroController() {
 		
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/librosview.fxml"));

@@ -40,10 +40,11 @@ public class MainController implements Initializable {
 	@FXML
 	private Tab librosAutoresTab;
 
-	private LibrosController librosController;
+	private LibroController librosController;
 
 	public MainController() {
 
+		//Cargar la vista principal
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/MainView.fxml"));
 			loader.setController(this);
@@ -53,7 +54,8 @@ public class MainController implements Initializable {
 			e.printStackTrace();
 		}
 
-		librosController = new LibrosController();
+		// Cargar las pestañas
+		librosController = new LibroController();
 		librosTab.setContent(librosController.getView());
 
 		Libro l1 = new Libro();
