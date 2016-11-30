@@ -10,25 +10,34 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "autores")
 @SuppressWarnings("serial")
-public class Autores implements Serializable {
+public class Autor implements Serializable {
 
 	@Id
 	@Column(columnDefinition = "CHAR(4")
-	private int codAutor;
+	private String codAutor;
 
 	@Column(columnDefinition = "VARCHAR(30)")
 	private String nombreAutor;
 
-	public Autores() {
+	public Autor() {
 		nombreAutor = "";
-		codAutor = 0;
+		codAutor = "";
 	}
 
 	public String getNombreAutor() {
 		return nombreAutor;
 	}
 
-	public int getCodAutor() {
+	public String getCodAutor() {
 		return codAutor;
 	}
+
+	public void setCodAutor(String string) {
+		this.codAutor = string;
+	}
+
+	public void setNombreAutor(String nombreAutor) {
+		this.nombreAutor = nombreAutor;
+	}
+
 }

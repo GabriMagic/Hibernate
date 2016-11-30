@@ -16,26 +16,26 @@ public class LibrosAutores implements Serializable {
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "Autores")
-	private Autores codAutor;
+	private Autor codAutor;
 
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "Libros")
-	private Libros codLibro;
+	private Libro codLibro;
 
-	public Autores getCodAutor() {
+	public Autor getCodAutor() {
 		return codAutor;
 	}
 
-	public void setCodAutor(Autores codAutor) {
+	public void setCodAutor(Autor codAutor) {
 		this.codAutor = codAutor;
 	}
 
-	public Libros getCodLibro() {
+	public Libro getCodLibro() {
 		return codLibro;
 	}
 
-	public void setCodLibro(Libros codLibro) {
+	public void setCodLibro(Libro codLibro) {
 		this.codLibro = codLibro;
 	}
 

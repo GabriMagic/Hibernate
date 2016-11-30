@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "libros")
 @SuppressWarnings("serial")
-public class Libros implements Serializable {
+public class Libro implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

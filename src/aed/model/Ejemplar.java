@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ejemplares")
 @SuppressWarnings("serial")
-public class Ejemplares implements Serializable {
+public class Ejemplar implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +22,7 @@ public class Ejemplares implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "Libros")
-	private Libros codLibro;
+	private Libro codLibro;
 
 	@Column(columnDefinition = "DECIMAL(5,2)")
 	private Double importe;
@@ -38,11 +38,11 @@ public class Ejemplares implements Serializable {
 		this.codEjemplar = codEjemplar;
 	}
 
-	public Libros getCodLibro() {
+	public Libro getCodLibro() {
 		return codLibro;
 	}
 
-	public void setCodLibro(Libros codLibro) {
+	public void setCodLibro(Libro codLibro) {
 		this.codLibro = codLibro;
 	}
 
