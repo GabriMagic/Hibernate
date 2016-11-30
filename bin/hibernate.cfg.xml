@@ -5,7 +5,7 @@
 	<session-factory>
 		<!-- Configuración de conexión a la base de datos -->
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="connection.url">jdbc:mysql://localhost/bibliotecahibernate</property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/bibliotecahibernate</property>
 		<property name="connection.username">root</property>
 		<property name="connection.password"></property>
 		<!-- Pool de conexiones JDBC (se usa la que viene por defecto) -->
@@ -23,11 +23,11 @@
 			ejecuto crea las tablas -->
 		<property name="hbm2ddl.auto">create-drop</property>
 		<!-- Mapea las siguientes clases anotadas -->
-		<mapping class="aed.model.Libro" />
 		<mapping class="aed.model.Autor" />
 		<mapping class="aed.model.Ejemplar" />
 		<mapping class="aed.model.LibrosAutores" />
 		<mapping class="aed.model.DepositoLegal" />
+		<mapping class="aed.model.Libro" />
 
 	</session-factory>
 </hibernate-configuration>

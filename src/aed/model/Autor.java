@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class Autor implements Serializable {
 
 	@Id
-	@Column(columnDefinition = "CHAR(4")
+	@Column(columnDefinition = "CHAR(4)")
 	private String codAutor;
 
 	@Column(columnDefinition = "VARCHAR(30)")

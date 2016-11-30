@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60">
+   <children>
+      <TableView fx:id="librosTable">
+        <columns>
+          <TableColumn fx:id="codLibroColumn" prefWidth="75.0" text="codLibro" />
+          <TableColumn fx:id="nombreLibroColumn" prefWidth="88.0" text="nombreLibro" />
+            <TableColumn fx:id="ISBNColumn" prefWidth="62.0" text="ISBN" />
+            <TableColumn fx:id="fechaIntroColumn" prefWidth="75.0" text="fechaIntro" />
+        </columns>
+      </TableView>
+   </children>
+</VBox>

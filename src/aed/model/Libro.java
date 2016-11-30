@@ -25,7 +25,7 @@ public class Libro implements Serializable {
 	@Column(columnDefinition = "VARCHAR(20)")
 	private String ISBN;
 
-	@Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+	@Column(columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date fechaIntro;
 
 	public int getCodLibro() {

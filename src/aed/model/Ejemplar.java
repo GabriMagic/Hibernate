@@ -27,7 +27,7 @@ public class Ejemplar implements Serializable {
 	@Column(columnDefinition = "DECIMAL(5,2)")
 	private Double importe;
 
-	@Column(columnDefinition = "VARCHAR(20")
+	@Column(columnDefinition = "VARCHAR(20)")
 	private String tipo_moneda;
 
 	public int getCodEjemplar() {
