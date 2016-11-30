@@ -41,6 +41,7 @@ public class MainController implements Initializable {
 	private Tab librosAutoresTab;
 
 	private LibroController librosController;
+	private AutorController autorController;
 
 	public MainController() {
 
@@ -56,7 +57,10 @@ public class MainController implements Initializable {
 
 		// Cargar las pestañas
 		librosController = new LibroController();
+		autorController = new AutorController();
+		
 		librosTab.setContent(librosController.getView());
+		librosTab.setContent(autorController.getAutoresTable());
 
 		Libro l1 = new Libro();
 		l1.setISBN("98-882-8563-F");

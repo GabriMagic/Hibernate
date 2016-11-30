@@ -27,7 +27,7 @@ public class LibroController {
 	private TableColumn<Libro, Date> fechaIntroColumn;
 
 	public LibroController() {
-		
+
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/librosview.fxml"));
 			loader.setController(this);
@@ -36,7 +36,6 @@ public class LibroController {
 			e.printStackTrace();
 		}
 
-		librosTable.setFocusTraversable(false);
 	}
 
 	public VBox getView() {
