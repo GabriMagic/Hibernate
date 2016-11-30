@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import org.hibernate.Session;
 
+import aed.model.HibernateUtil;
 import aed.model.Libro;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -72,6 +73,12 @@ public class LibroController {
 
 	public LibroController(Session session) {
 
+		if (session.isOpen()) {
+			System.out.println("ABIERTA");
+		} else {
+			System.out.println("CERRADA");
+		}
+
 		FXMLloads();
 
 		this.session = session;
@@ -100,14 +107,15 @@ public class LibroController {
 			l1.setISBN(isbnText.getText());
 			l1.setFechaIntro(Date.valueOf(LocalDate.now()));
 
-			System.out.println(l1);
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.save(l1);
+			session.getTransaction().commit();
 
-//			session.persist(l1);
-//			session.save(l1);
-			// nombreText.setText("");
-			// isbnText.setText("");
-			//
-			// cargarLibros(session);
+			stage.close();
+			nombreText.setText("");
+			isbnText.setText("");
+			cargarLibros(session);
 		} else {
 			messageAlert.setAlertType(AlertType.ERROR);
 			messageAlert.setTitle("ISBN");

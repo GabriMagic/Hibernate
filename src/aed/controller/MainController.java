@@ -2,14 +2,12 @@ package aed.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import org.hibernate.Session;
 
+import aed.app.HibernateAPP;
 import aed.model.HibernateUtil;
-import aed.model.Libro;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -92,7 +90,6 @@ public class MainController implements Initializable {
 
 		session.getTransaction().commit();
 		session.close();
-
 	}
 
 	public TabPane getView() {
