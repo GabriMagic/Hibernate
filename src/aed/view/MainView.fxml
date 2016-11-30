@@ -2,34 +2,13 @@
 
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.AnchorPane?>
 
 <TabPane fx:id="view" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
   <tabs>
-    <Tab fx:id="librosTab" text="Libros">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
-    </Tab>
-    <Tab fx:id="autoresTab" text="Autores">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
-    </Tab>
-      <Tab fx:id="ejemplaresTab" text="Ejemplares">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-         </content>
-      </Tab>
-      <Tab fx:id="depositoLegalTab" text="Depósito Legal">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-         </content>
-      </Tab>
-      <Tab fx:id="librosAutoresTab" text="Libros Autores">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-         </content>
-      </Tab>
+    <Tab fx:id="librosTab" text="Libros" />
+    <Tab fx:id="autoresTab" text="Autores" />
+      <Tab fx:id="ejemplaresTab" text="Ejemplares" />
+      <Tab fx:id="depositoLegalTab" text="Depósito Legal" />
+      <Tab fx:id="librosAutoresTab" text="Libros Autores" />
   </tabs>
 </TabPane>
