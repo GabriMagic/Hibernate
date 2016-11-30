@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
@@ -10,4 +12,12 @@
       <TableColumn fx:id="isbnColumn" prefWidth="101.0" text="ISBN" />
       <TableColumn fx:id="fechaColumn" prefWidth="123.0" text="fechaIntro" />
   </columns>
+   <contextMenu>
+      <ContextMenu fx:id="menuLibros">
+        <items>
+          <MenuItem fx:id="addLibro" mnemonicParsing="false" onAction="#onAddLibro" text="Añadir Libro" />
+            <MenuItem fx:id="delLibros" mnemonicParsing="false" onAction="#onDelLibros" text="Eliminar libro(s)" />
+        </items>
+      </ContextMenu>
+   </contextMenu>
 </TableView>

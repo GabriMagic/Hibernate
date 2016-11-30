@@ -22,7 +22,7 @@ public class Libro implements Serializable {
 	@Column(columnDefinition = "VARCHAR(40)")
 	private String nombreLibro;
 
-	@Column(columnDefinition = "VARCHAR(20)")
+	@Column(columnDefinition = "VARCHAR(20) UNIQUE")
 	private String ISBN;
 
 	@Column(columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
@@ -60,4 +60,8 @@ public class Libro implements Serializable {
 		this.fechaIntro = fechaIntro;
 	}
 
+	@Override
+	public String toString() {
+		return getCodLibro()+" /-/ "+getNombreLibro()+" /-/ "+getISBN();
+	}
 }
