@@ -1,5 +1,5 @@
 #Hibernate
-```javafx
+```java
 package aed.app;
 
 import aed.controller.MainController;
