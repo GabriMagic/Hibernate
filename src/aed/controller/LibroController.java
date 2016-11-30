@@ -9,7 +9,9 @@ import org.hibernate.Session;
 
 import aed.model.Libro;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableColumn;
@@ -19,6 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class LibroController {
 
 	private ListProperty<Libro> libros;
+	List<Libro> librosList;
 
 	@FXML
 	private TableView<Libro> librosTable;
@@ -47,12 +50,16 @@ public class LibroController {
 		isbnColumn.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
 		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fechaIntro"));
 
+		cargarLibros(session);
+
+		libros = new SimpleListProperty<>(this, "libros", FXCollections.observableArrayList(librosList));
 		librosTable.itemsProperty().bind(libros);
-		
+
+	}
+
+	private void cargarLibros(Session session) {
 		Query query = session.createQuery("from Libro");
-		List<Libro> libros = query.list();
-		libros = FXCollections.observableArrayList(libros);
-		
+		librosList = query.list();
 	}
 
 	public TableView<Libro> getLibrosTable() {

@@ -2,18 +2,9 @@ package aed.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
-
 import org.hibernate.Session;
-
-import aed.model.Autor;
-import aed.model.DepositoLegal;
-import aed.model.Ejemplar;
 import aed.model.HibernateUtil;
-import aed.model.Libro;
-import aed.model.LibrosAutores;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
