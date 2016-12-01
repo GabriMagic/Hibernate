@@ -62,6 +62,6 @@ public class Libro implements Serializable {
 
 	@Override
 	public String toString() {
-		return getCodLibro()+" /-/ "+getNombreLibro()+" /-/ "+getISBN();
+		return getNombreLibro();
 	}
 }

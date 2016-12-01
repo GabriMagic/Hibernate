@@ -73,12 +73,6 @@ public class LibroController {
 
 	public LibroController(Session session) {
 
-		if (session.isOpen()) {
-			System.out.println("ABIERTA");
-		} else {
-			System.out.println("CERRADA");
-		}
-
 		FXMLloads();
 
 		this.session = session;
@@ -93,7 +87,7 @@ public class LibroController {
 		stage = new Stage();
 		stage.setScene(new Scene(new VBox()));
 
-		cargarLibros(session);
+		mostrarLibros();
 
 	}
 
@@ -107,15 +101,15 @@ public class LibroController {
 			l1.setISBN(isbnText.getText());
 			l1.setFechaIntro(Date.valueOf(LocalDate.now()));
 
-//			session = HibernateUtil.getSessionFactory().openSession();
-//			session.save(l1);
-//			session.beginTransaction();
-//			session.getTransaction().commit();
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.save(l1);
+			session.getTransaction().commit();
 
 			stage.close();
 			nombreText.setText("");
 			isbnText.setText("");
-			cargarLibros(session);
+			mostrarLibros();
 		} else {
 			messageAlert.setAlertType(AlertType.ERROR);
 			messageAlert.setTitle("ISBN");
@@ -146,7 +140,7 @@ public class LibroController {
 	}
 
 	@SuppressWarnings("unchecked")
-	void cargarLibros(Session session) {
+	public void mostrarLibros() {
 		// Query query = session.createQuery("from Libro");
 		// List<Libro> libros = query.list();
 		// Version resumida

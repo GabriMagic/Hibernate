@@ -19,11 +19,6 @@ public class Autor implements Serializable {
 	@Column(columnDefinition = "VARCHAR(30)")
 	private String nombreAutor;
 
-	public Autor() {
-		nombreAutor = "";
-		codAutor = "";
-	}
-
 	public String getNombreAutor() {
 		return nombreAutor;
 	}

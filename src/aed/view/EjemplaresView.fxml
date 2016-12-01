@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="ejemplarTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+  <columns>
+    <TableColumn fx:id="codColumn" prefWidth="98.0" text="codEjemplar" />
+    <TableColumn fx:id="libroColumn" prefWidth="195.0" text="Libro" />
+      <TableColumn fx:id="importeColumn" prefWidth="122.0" text="Importe" />
+      <TableColumn fx:id="tipoMonedaColumn" prefWidth="184.0" text="Tipo Moneda" />
+  </columns>
+   <contextMenu>
+      <ContextMenu fx:id="menuLibros">
+         <items>
+            <MenuItem fx:id="addLibro" mnemonicParsing="false" onAction="#onAddLibro" text="Añadir Ejemplar" />
+            <MenuItem fx:id="delLibros" mnemonicParsing="false" onAction="#onDelLibros" text="Eliminar Ejemplar(es)" />
+         </items>
+      </ContextMenu>
+   </contextMenu>
+</TableView>

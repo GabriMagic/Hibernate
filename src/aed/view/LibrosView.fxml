@@ -8,9 +8,9 @@
 <TableView fx:id="librosTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
   <columns>
     <TableColumn fx:id="codColumn" prefWidth="75.0" text="codLibro" />
-    <TableColumn fx:id="nombreColumn" prefWidth="119.0" text="nombreLibro" />
-      <TableColumn fx:id="isbnColumn" prefWidth="101.0" text="ISBN" />
-      <TableColumn fx:id="fechaColumn" prefWidth="123.0" text="fechaIntro" />
+    <TableColumn fx:id="nombreColumn" prefWidth="174.0" text="nombreLibro" />
+      <TableColumn fx:id="isbnColumn" prefWidth="146.0" text="ISBN" />
+      <TableColumn fx:id="fechaColumn" prefWidth="204.0" text="fechaIntro" />
   </columns>
    <contextMenu>
       <ContextMenu fx:id="menuLibros">

@@ -19,6 +19,7 @@ public class HibernateAPP extends Application {
 		mainController = new MainController();
 
 		primaryStage.setScene(new Scene(mainController.getView()));
+		primaryStage.setResizable(false);
 		primaryStage.getIcons().add(new Image("/resources/db.png"));
 		primaryStage.setTitle("HIBERNATE");
 		primaryStage.show();
