@@ -20,6 +20,9 @@ public class MainController implements Initializable {
 	private TabPane view;
 
 	@FXML
+	private Tab datosTab;
+
+	@FXML
 	private Tab librosTab;
 
 	@FXML

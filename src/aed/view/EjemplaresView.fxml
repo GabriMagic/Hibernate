@@ -15,8 +15,8 @@
    <contextMenu>
       <ContextMenu fx:id="menuLibros">
          <items>
-            <MenuItem fx:id="addLibro" mnemonicParsing="false" onAction="#onAddLibro" text="Añadir Ejemplar" />
-            <MenuItem fx:id="delLibros" mnemonicParsing="false" onAction="#onDelLibros" text="Eliminar Ejemplar(es)" />
+            <MenuItem fx:id="add" mnemonicParsing="false" onAction="#onAdd" text="Añadir Ejemplar" />
+            <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#onDelete" text="Eliminar Ejemplar(es)" />
          </items>
       </ContextMenu>
    </contextMenu>

@@ -16,7 +16,7 @@ public class DepositoLegal implements Serializable {
 
 	@Id
 	@OneToOne
-	@JoinColumn(name = "Libros")
+	@JoinColumn(name = "codLibroDeposito")
 	private Libro codLibroDeposito;
 
 	@Column(columnDefinition = "VARCHAR(20)")

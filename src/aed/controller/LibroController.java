@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 import org.hibernate.Session;
 
-import aed.model.HibernateUtil;
 import aed.model.Libro;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -21,9 +20,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -37,7 +39,7 @@ public class LibroController {
 	private TableColumn<Libro, Integer> codColumn;
 
 	@FXML
-	private TableColumn<Libro, Libro> nombreColumn, isbnColumn;
+	private TableColumn<Libro, String> nombreColumn, isbnColumn;
 
 	@FXML
 	private TableColumn<Libro, java.util.Date> fechaColumn;
@@ -81,14 +83,41 @@ public class LibroController {
 
 		codColumn.setCellValueFactory(new PropertyValueFactory<>("codLibro"));
 		nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreLibro"));
+		nombreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		isbnColumn.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
+		isbnColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fechaIntro"));
 
+		isbnColumn.setOnEditCommit(e -> updateIsbnLibro(e));
+		nombreColumn.setOnEditCommit(e -> updateNombre(e));
+		
 		stage = new Stage();
+		stage.getIcons().add(new Image(getClass().getResource("/resources/db.png").toExternalForm()));
 		stage.setScene(new Scene(new VBox()));
 
-		mostrarLibros();
+		cargarLibros();
 
+	}
+
+	private void updateNombre(CellEditEvent<Libro, String> e) {
+		e.getRowValue().setNombreLibro(e.getNewValue());
+		session.beginTransaction();
+		session.createQuery("UPDATE Libro SET nombreLibro=? WHERE codLibro=?").setString(0, e.getNewValue())
+				.setInteger(1, e.getRowValue().getCodLibro()).executeUpdate();
+		session.getTransaction().commit();
+		cargarLibros();
+	}
+
+	private void updateIsbnLibro(CellEditEvent<Libro, String> e) {
+		Matcher mat = pattern.matcher(e.getNewValue());
+		if (mat.matches()) {
+			e.getRowValue().setISBN(e.getNewValue());
+			session.beginTransaction();
+			session.createQuery("UPDATE Libro SET ISBN=? WHERE codLibro=?").setString(0, e.getNewValue())
+					.setInteger(1, e.getRowValue().getCodLibro()).executeUpdate();
+			session.getTransaction().commit();
+			cargarLibros();
+		}
 	}
 
 	@FXML
@@ -108,7 +137,7 @@ public class LibroController {
 			stage.close();
 			nombreText.setText("");
 			isbnText.setText("");
-			mostrarLibros();
+			cargarLibros();
 		} else {
 			messageAlert.setAlertType(AlertType.ERROR);
 			messageAlert.setTitle("ISBN");
@@ -135,11 +164,18 @@ public class LibroController {
 
 	@FXML
 	void onDelLibros(ActionEvent event) {
+		System.out.println("Borrar" + librosTable.getSelectionModel().getSelectedItem().getCodLibro());
+
+		session.beginTransaction();
+		session.createQuery("DELETE FROM Libro WHERE codLibro = ?")
+				.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+		session.getTransaction().commit();
+		cargarLibros();
 
 	}
 
 	@SuppressWarnings("unchecked")
-	public void mostrarLibros() {
+	public void cargarLibros() {
 		// Query query = session.createQuery("from Libro");
 		// List<Libro> libros = query.list();
 		// Version resumida
@@ -168,11 +204,11 @@ public class LibroController {
 		return codColumn;
 	}
 
-	public TableColumn<Libro, Libro> getNombreColumn() {
+	public TableColumn<Libro, String> getNombreColumn() {
 		return nombreColumn;
 	}
 
-	public TableColumn<Libro, Libro> getIsbnColumn() {
+	public TableColumn<Libro, String> getIsbnColumn() {
 		return isbnColumn;
 	}
 

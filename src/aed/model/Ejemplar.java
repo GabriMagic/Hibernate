@@ -22,7 +22,7 @@ public class Ejemplar implements Serializable {
 	private int codEjemplar;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "Libros")
+	@JoinColumn(name = "codLibro")
 	private Libro codLibro;
 
 	@Column(columnDefinition = "DECIMAL(5,2)")

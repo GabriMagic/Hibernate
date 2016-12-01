@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.hibernate.Session;
 
-import aed.model.Autor;
+import aed.model.Ejemplar;
 import aed.model.Libro;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -25,28 +25,28 @@ import javafx.stage.Stage;
 
 public class EjemplaresController {
 	@FXML
-	private TableView<Autor> ejemplarTable;
+	private TableView<Ejemplar> ejemplarTable;
 
 	@FXML
-	private TableColumn<Autor, Integer> codColumn;
+	private TableColumn<Ejemplar, Integer> codColumn;
 
 	@FXML
-	private TableColumn<Autor, String> libroColumn;
+	private TableColumn<Ejemplar, String> libroColumn;
 
 	@FXML
-	private TableColumn<Autor, Double> importeColumn;
+	private TableColumn<Ejemplar, Double> importeColumn;
 
 	@FXML
-	private TableColumn<Autor, String> tipoMonedaColumn;
+	private TableColumn<Ejemplar, String> tipoMonedaColumn;
 
 	@FXML
 	private ContextMenu menuLibros;
 
 	@FXML
-	private MenuItem addLibro;
+	private MenuItem add;
 
 	@FXML
-	private MenuItem delLibros;
+	private MenuItem delete;
 
 	@FXML
 	private GridPane insertView;
@@ -102,7 +102,11 @@ public class EjemplaresController {
 
 	@FXML
 	void onCancelButton(ActionEvent event) {
-
+		stage.close();
+		nombreText.setText("");
+		libroCombo.setValue(null);
+		importeText.setText("");
+		tipoMonedaText.setText("");
 	}
 
 	@FXML
@@ -112,39 +116,39 @@ public class EjemplaresController {
 
 	@SuppressWarnings("unchecked")
 	@FXML
-	void onAddLibro(ActionEvent event) {
+	void onAdd(ActionEvent event) {
 		libroCombo.setItems(FXCollections.observableArrayList(session.createQuery("from Libro").list()));
 		stage.getScene().setRoot(insertView);
 		stage.show();
 	}
 
 	@FXML
-	void onDelLibros(ActionEvent event) {
+	void onDelete(ActionEvent event) {
 
 	}
 
 	@SuppressWarnings("unchecked")
 	private void cargarEjemplares() {
-		getEjemplarTable().setItems(FXCollections.observableArrayList(session.createQuery("FROM Ejemplar").list()));
+		ejemplarTable.setItems(FXCollections.observableArrayList(session.createQuery("FROM Ejemplar").list()));
 	}
 
-	public TableView<Autor> getEjemplarTable() {
+	public TableView<Ejemplar> getEjemplarTable() {
 		return ejemplarTable;
 	}
 
-	public TableColumn<Autor, Integer> getCodColumn() {
+	public TableColumn<Ejemplar, Integer> getCodColumn() {
 		return codColumn;
 	}
 
-	public TableColumn<Autor, String> getLibroColumn() {
+	public TableColumn<Ejemplar, String> getLibroColumn() {
 		return libroColumn;
 	}
 
-	public TableColumn<Autor, Double> getImporteColumn() {
+	public TableColumn<Ejemplar, Double> getImporteColumn() {
 		return importeColumn;
 	}
 
-	public TableColumn<Autor, String> getTipoMonedaColumn() {
+	public TableColumn<Ejemplar, String> getTipoMonedaColumn() {
 		return tipoMonedaColumn;
 	}
 
