@@ -75,12 +75,6 @@ public class LibroController {
 
 		FXMLloads();
 
-		if (session.isOpen()) {
-			System.out.println("ABIERTA");
-		} else {
-			System.out.println("CERRADA");
-		}
-		
 		this.session = session;
 		pattern = Pattern.compile("[0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]-[a-zA-Z]");
 		messageAlert = new Alert(AlertType.ERROR);
@@ -107,7 +101,6 @@ public class LibroController {
 			l1.setISBN(isbnText.getText());
 			l1.setFechaIntro(Date.valueOf(LocalDate.now()));
 
-			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			session.save(l1);
 			session.getTransaction().commit();

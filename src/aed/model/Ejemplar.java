@@ -21,7 +21,7 @@ public class Ejemplar implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int codEjemplar;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "Libros")
 	private Libro codLibro;
 

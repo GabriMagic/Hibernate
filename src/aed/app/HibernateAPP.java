@@ -9,14 +9,11 @@ import javafx.stage.Stage;
 public class HibernateAPP extends Application {
 
 	private MainController mainController;
-	private Stage primaryStage;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		this.primaryStage = primaryStage;
-
-		mainController = new MainController();
+		mainController = new MainController(primaryStage);
 
 		primaryStage.setScene(new Scene(mainController.getView()));
 		primaryStage.setResizable(false);
@@ -27,9 +24,5 @@ public class HibernateAPP extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
-	}
-
-	public Stage getPrimaryStage() {
-		return primaryStage;
 	}
 }

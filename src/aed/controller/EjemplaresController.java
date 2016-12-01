@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.hibernate.Session;
 
 import aed.model.Autor;
-import aed.model.HibernateUtil;
 import aed.model.Libro;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -74,12 +73,6 @@ public class EjemplaresController {
 
 		this.session = session;
 
-		if (session.isOpen()) {
-			System.out.println("ABIERTA");
-		} else {
-			System.out.println("CERRADA");
-		}
-
 		stage = new Stage();
 		stage.setScene(new Scene(new VBox()));
 
@@ -120,11 +113,7 @@ public class EjemplaresController {
 	@SuppressWarnings("unchecked")
 	@FXML
 	void onAddLibro(ActionEvent event) {
-
-		session = session.isOpen() ? null : HibernateUtil.getSessionFactory().openSession() ;
-
 		libroCombo.setItems(FXCollections.observableArrayList(session.createQuery("from Libro").list()));
-
 		stage.getScene().setRoot(insertView);
 		stage.show();
 	}
