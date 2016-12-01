@@ -20,7 +20,7 @@
             <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#onCancelButton" text="Cancelar" />
          </children>
       </HBox>
-      <ComboBox fx:id="libroCombo" maxWidth="1.7976931348623157E308" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <ComboBox fx:id="libroCombo" maxWidth="1.7976931348623157E308" prefWidth="150.0" promptText="-- Seleccione libro --" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <Label text="Libro:" GridPane.rowIndex="2" />
       <Label text="Importe:" GridPane.rowIndex="3" />
       <TextField fx:id="importeText" promptText="Importe" GridPane.columnIndex="1" GridPane.rowIndex="3" />

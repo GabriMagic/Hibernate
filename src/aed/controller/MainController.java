@@ -45,30 +45,29 @@ public class MainController implements Initializable {
 	private EjemplaresController ejemplaresController;
 
 	public MainController() {
-		
+
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		
+
 		// Cargar la vista principal
-				try {
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/MainView.fxml"));
-					loader.setController(this);
-					view = loader.load();
-				} catch (IOException e) {
-					System.out.println(e.getLocalizedMessage());
-					e.printStackTrace();
-				}
-		
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/MainView.fxml"));
+			loader.setController(this);
+			view = loader.load();
+		} catch (IOException e) {
+			System.out.println(e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+
 		// Cargar las pestañas
 		librosController = new LibroController(session);
 		autorController = new AutorController(session);
 		ejemplaresController = new EjemplaresController(session);
-		
+
 		librosTab.setContent(librosController.getLibrosTable());
 		autoresTab.setContent(autorController.getAutoresTable());
 		ejemplaresTab.setContent(ejemplaresController.getEjemplarTable());
-		
-		
+
 		Libro l1 = new Libro();
 		l1.setISBN("12-963-6469-X");
 		l1.setFechaIntro(Date.valueOf(LocalDate.now()));
@@ -91,14 +90,12 @@ public class MainController implements Initializable {
 		LibrosAutores la1 = new LibrosAutores();
 		la1.setCodAutor(a1);
 		la1.setCodLibro(l1);
-		
-		
-		
-//		session.save(l1);
-//		session.save(a1);
-//		session.save(ej1);
-//		session.save(dl1);
-//		session.save(la1);
+
+		// session.save(l1);
+		// session.save(a1);
+		// session.save(ej1);
+		// session.save(dl1);
+		// session.save(la1);
 
 		session.getTransaction().commit();
 		session.close();
@@ -110,6 +107,6 @@ public class MainController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 	}
 }
