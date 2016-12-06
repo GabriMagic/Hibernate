@@ -113,8 +113,8 @@ public class LibroController {
 		if (mat.matches()) {
 			e.getRowValue().setISBN(e.getNewValue());
 			session.beginTransaction();
-			session.createQuery("UPDATE Libro SET ISBN=? WHERE codLibro=?").setString(0, e.getNewValue())
-					.setInteger(1, e.getRowValue().getCodLibro()).executeUpdate();
+			session.createQuery("UPDATE Libro SET ISBN=:isbn WHERE codLibro=:libro").setString("isbn", e.getNewValue())
+					.setInteger("libro", e.getRowValue().getCodLibro()).executeUpdate();
 			session.getTransaction().commit();
 			cargarLibros();
 		}

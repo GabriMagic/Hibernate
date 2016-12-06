@@ -11,13 +11,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -31,7 +35,7 @@ public class EjemplaresController {
 	private TableColumn<Ejemplar, Integer> codColumn;
 
 	@FXML
-	private TableColumn<Ejemplar, String> libroColumn;
+	private TableColumn<Ejemplar, Libro> libroColumn;
 
 	@FXML
 	private TableColumn<Ejemplar, Double> importeColumn;
@@ -52,9 +56,6 @@ public class EjemplaresController {
 	private GridPane insertView;
 
 	@FXML
-	private TextField nombreText;
-
-	@FXML
 	private Button confirmButton;
 
 	@FXML
@@ -68,42 +69,44 @@ public class EjemplaresController {
 
 	private Session session;
 	private Stage stage;
+	private Alert message;
 
+	@SuppressWarnings("unchecked")
 	public EjemplaresController(Session session) {
 
 		this.session = session;
 
 		stage = new Stage();
 		stage.setScene(new Scene(new VBox()));
+		message = new Alert(AlertType.ERROR);
 
 		FXMLloads();
-		cargarEjemplares();
-	}
-
-	private void FXMLloads() {
-		try {
-			FXMLLoader loaderEjemplaresView = new FXMLLoader(getClass().getResource("/aed/view/EjemplaresView.fxml"));
-			loaderEjemplaresView.setController(this);
-			ejemplarTable = loaderEjemplaresView.load();
-
-			FXMLLoader loaderInsertView = new FXMLLoader(getClass().getResource("/aed/view/InsertEjemplarView.fxml"));
-			loaderInsertView.setController(this);
-			insertView = loaderInsertView.load();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 		codColumn.setCellValueFactory(new PropertyValueFactory<>("codEjemplar"));
 		libroColumn.setCellValueFactory(new PropertyValueFactory<>("codLibro"));
+		libroColumn.setCellFactory(ComboBoxTableCell
+				.forTableColumn(FXCollections.observableArrayList(session.createQuery("FROM Libro").list())));
 		importeColumn.setCellValueFactory(new PropertyValueFactory<>("importe"));
 		tipoMonedaColumn.setCellValueFactory(new PropertyValueFactory<>("tipo_moneda"));
 
+		libroColumn.setOnEditCommit(e -> updateLibro(e));
+		importeColumn.setOnEditCommit(e -> updateImporte(e));
+
+		cargarEjemplares();
+	}
+
+	private void updateLibro(CellEditEvent<Ejemplar, Libro> e) {
+		e.getRowValue().setCodLibro(e.getNewValue());
+		session.beginTransaction();
+		session.createQuery("UPDATE Ejemplar SET codLibro=? WHERE codEjemplar=?").setEntity("libro", e.getNewValue())
+				.setInteger("ejemplar", e.getRowValue().getCodEjemplar());
+		session.getTransaction().commit();
+		cargarEjemplares();
 	}
 
 	@FXML
 	void onCancelButton(ActionEvent event) {
 		stage.close();
-		nombreText.setText("");
 		libroCombo.setValue(null);
 		importeText.setText("");
 		tipoMonedaText.setText("");
@@ -111,6 +114,29 @@ public class EjemplaresController {
 
 	@FXML
 	void onConfirmAdd(ActionEvent event) {
+
+		try {
+			Ejemplar ej1 = new Ejemplar();
+			ej1.setCodLibro(libroCombo.getValue());
+			ej1.setImporte(Double.parseDouble(importeText.getText()));
+			ej1.setTipo_moneda(tipoMonedaText.getText());
+
+			session.beginTransaction();
+			session.save(ej1);
+			session.getTransaction().commit();
+
+			cargarEjemplares();
+
+			stage.close();
+			libroCombo.setValue(null);
+			importeText.setText("");
+			tipoMonedaText.setText("");
+		} catch (NumberFormatException e) {
+			message.setTitle("Código Ejemplar");
+			message.setHeaderText("Error al insertar el código del ejemplar.");
+			message.setContentText("El código debe ser númerico.");
+			message.show();
+		}
 
 	}
 
@@ -132,6 +158,21 @@ public class EjemplaresController {
 		ejemplarTable.setItems(FXCollections.observableArrayList(session.createQuery("FROM Ejemplar").list()));
 	}
 
+	private void FXMLloads() {
+		try {
+			FXMLLoader loaderEjemplaresView = new FXMLLoader(getClass().getResource("/aed/view/EjemplaresView.fxml"));
+			loaderEjemplaresView.setController(this);
+			ejemplarTable = loaderEjemplaresView.load();
+
+			FXMLLoader loaderInsertView = new FXMLLoader(getClass().getResource("/aed/view/InsertEjemplarView.fxml"));
+			loaderInsertView.setController(this);
+			insertView = loaderInsertView.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	public TableView<Ejemplar> getEjemplarTable() {
 		return ejemplarTable;
 	}
@@ -140,7 +181,7 @@ public class EjemplaresController {
 		return codColumn;
 	}
 
-	public TableColumn<Ejemplar, String> getLibroColumn() {
+	public TableColumn<Ejemplar, Libro> getLibroColumn() {
 		return libroColumn;
 	}
 
