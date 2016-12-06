@@ -1,15 +1,16 @@
 package aed.controller;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Iterator;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import aed.model.Autor;
+import aed.model.Datos;
 import aed.model.DepositoLegal;
 import aed.model.Ejemplar;
 import aed.model.Libro;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableColumn;
@@ -19,35 +20,35 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class DatosController {
 
 	@FXML
-	private TableView<Libro> librosTable;
+	private TableView<Datos> librosTable;
 
 	@FXML
-	private TableColumn<Libro, Integer> codigoColumn;
+	private TableColumn<Datos, Integer> codigoColumn;
 
 	@FXML
-	private TableColumn<Libro, String> nombreColumn;
+	private TableColumn<Datos, String> nombreColumn;
 
 	@FXML
-	private TableColumn<Libro, String> isbnColumn;
+	private TableColumn<Datos, String> isbnColumn;
 
 	@FXML
-	private TableColumn<Libro, java.util.Date> fechaColumn;
+	private TableColumn<Datos, java.util.Date> fechaColumn;
 
 	@FXML
-	private TableColumn<Libro, Ejemplar> ejemplarColumn;
+	private TableColumn<Datos, Ejemplar> ejemplarColumn;
 
 	@FXML
-	private TableColumn<Libro, Autor> autorColumn;
+	private TableColumn<Datos, Autor> autorColumn;
 
 	@FXML
-	private TableColumn<Libro, DepositoLegal> depositoColumn;
+	private TableColumn<Datos, DepositoLegal> depositoColumn;
 
 	private Session session;
-	
+
 	public DatosController(Session session) {
 
 		this.session = session;
-		
+
 		FXMLloads();
 
 		codigoColumn.setCellValueFactory(new PropertyValueFactory<>("codLibro"));
@@ -57,24 +58,39 @@ public class DatosController {
 		ejemplarColumn.setCellValueFactory(new PropertyValueFactory<>("codEjemplra"));
 		autorColumn.setCellValueFactory(new PropertyValueFactory<>("codAutor"));
 		depositoColumn.setCellValueFactory(new PropertyValueFactory<>("codLibroDeposito"));
-		
-		
+
 		cargarTodos();
 	}
 
-	public void cargarTodos(){
+	public void cargarTodos() {
+
+		Datos datos = new Datos();
 		
-		@SuppressWarnings("unchecked")
-		List<Libro> e = session.createQuery("FROM Ejemplar e LEFT JOIN e.codLibro").list();
-		
-		for (Libro l : e) {
-			System.out.println(l);
+		// CLASE LIBROS COMPLETOS CON TODOS LO DATOS PARA FORMAR LA TABLA
+		Query query = session.createQuery("FROM Ejemplar e "
+				+ "LEFT JOIN e.codLibro "
+				+ "LEFT JOIN e.codLibroDeposito "
+				);
+
+		Iterator iterator = query.iterate();
+		while (iterator.hasNext()) {
+			Object[] par = (Object[]) iterator.next();
+			Ejemplar ej = (Ejemplar) par[0];
+			Libro li = (Libro) par[1];
+			
+			datos.setCodEjemplar(ej.getCodEjemplar());
+			datos.setCodLibro(li.getCodLibro());
+			datos.setNombreLibro(li.getNombreLibro());
+			datos.setFechaIntro(li.getFechaIntro());
+			
+//			Autor au = (Autor) par[2];
+			
+			System.out.println("COdLibro: " + li.getCodLibro() + " CodEjemplar: " + ej.getCodEjemplar());
 		}
-		
-		librosTable.setItems(FXCollections.observableArrayList(e));
-		
+		// librosTable.setItems(FXCollections.observableArrayList());
+
 	}
-	
+
 	private void FXMLloads() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/DatosView.fxml"));
@@ -85,35 +101,35 @@ public class DatosController {
 		}
 	}
 
-	public TableView<Libro> getLibrosTable() {
+	public TableView<Datos> getLibrosTable() {
 		return librosTable;
 	}
 
-	public TableColumn<Libro, Integer> getCodigoColumn() {
+	public TableColumn<Datos, Integer> getCodigoColumn() {
 		return codigoColumn;
 	}
 
-	public TableColumn<Libro, String> getNombreColumn() {
+	public TableColumn<Datos, String> getNombreColumn() {
 		return nombreColumn;
 	}
 
-	public TableColumn<Libro, String> getIsbnColumn() {
+	public TableColumn<Datos, String> getIsbnColumn() {
 		return isbnColumn;
 	}
 
-	public TableColumn<Libro, java.util.Date> getFechaColumn() {
+	public TableColumn<Datos, java.util.Date> getFechaColumn() {
 		return fechaColumn;
 	}
 
-	public TableColumn<Libro, Ejemplar> getEjemplarColumn() {
+	public TableColumn<Datos, Ejemplar> getEjemplarColumn() {
 		return ejemplarColumn;
 	}
 
-	public TableColumn<Libro, Autor> getAutorColumn() {
+	public TableColumn<Datos, Autor> getAutorColumn() {
 		return autorColumn;
 	}
 
-	public TableColumn<Libro, DepositoLegal> getDepositoColumn() {
+	public TableColumn<Datos, DepositoLegal> getDepositoColumn() {
 		return depositoColumn;
 	}
 
