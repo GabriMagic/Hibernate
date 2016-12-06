@@ -37,4 +37,9 @@ public class DepositoLegal implements Serializable {
 	public void setDepositoLegal(String depositoLegal) {
 		this.depositoLegal = depositoLegal;
 	}
+
+	@Override
+	public String toString() {
+		return getDepositoLegal();
+	}
 }

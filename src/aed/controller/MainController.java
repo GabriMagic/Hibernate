@@ -40,6 +40,7 @@ public class MainController implements Initializable {
 	private LibroController librosController;
 	private AutorController autorController;
 	private EjemplaresController ejemplaresController;
+	private DatosController datosController;
 
 	public MainController(Stage primaryStage) {
 
@@ -63,10 +64,12 @@ public class MainController implements Initializable {
 		librosController = new LibroController(session);
 		autorController = new AutorController(session);
 		ejemplaresController = new EjemplaresController(session);
+		datosController = new DatosController(session);
 
 		librosTab.setContent(librosController.getLibrosTable());
 		autoresTab.setContent(autorController.getAutoresTable());
 		ejemplaresTab.setContent(ejemplaresController.getEjemplarTable());
+		datosTab.setContent(datosController.getLibrosTable());
 
 		// Libro l1 = new Libro();
 		// l1.setISBN("12-963-6469-X");

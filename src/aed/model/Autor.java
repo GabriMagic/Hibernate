@@ -35,4 +35,8 @@ public class Autor implements Serializable {
 		this.nombreAutor = nombreAutor;
 	}
 
+	@Override
+	public String toString() {
+		return getNombreAutor();
+	}
 }
