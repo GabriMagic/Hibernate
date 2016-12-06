@@ -9,6 +9,7 @@ import aed.model.Autor;
 import aed.model.DepositoLegal;
 import aed.model.Ejemplar;
 import aed.model.Libro;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableColumn;
@@ -51,7 +52,7 @@ public class DatosController {
 
 		codigoColumn.setCellValueFactory(new PropertyValueFactory<>("codLibro"));
 		nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreLibro"));
-		isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
+		isbnColumn.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
 		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fechaIntro"));
 		ejemplarColumn.setCellValueFactory(new PropertyValueFactory<>("codEjemplra"));
 		autorColumn.setCellValueFactory(new PropertyValueFactory<>("codAutor"));
@@ -64,12 +65,13 @@ public class DatosController {
 	public void cargarTodos(){
 		
 		@SuppressWarnings("unchecked")
-		List<Libro> e = session.createQuery("FROM Libro l "
-				+ "LEFT JOIN FETCH l.codEjemplar").list();
+		List<Libro> e = session.createQuery("FROM Ejemplar e LEFT JOIN e.codLibro").list();
 		
-		for (Libro object : e) {
-			System.out.println(e);
+		for (Libro l : e) {
+			System.out.println(l);
 		}
+		
+		librosTable.setItems(FXCollections.observableArrayList(e));
 		
 	}
 	

@@ -62,5 +62,10 @@ public class Ejemplar implements Serializable {
 	public void setTipoMoneda(String tipoMoneda) {
 		this.tipoMoneda = tipoMoneda;
 	}
+	
+	@Override
+	public String toString() {
+		return getCodLibro().getNombreLibro()+" ejemplar Nº: "+getCodEjemplar();
+	}
 
 }
