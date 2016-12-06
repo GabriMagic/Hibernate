@@ -29,7 +29,7 @@ public class Ejemplar implements Serializable {
 	private Double importe;
 
 	@Column(columnDefinition = "VARCHAR(20)")
-	private String tipo_moneda;
+	private String tipoMoneda;
 
 	public int getCodEjemplar() {
 		return codEjemplar;
@@ -55,12 +55,12 @@ public class Ejemplar implements Serializable {
 		this.importe = importe;
 	}
 
-	public String getTipo_moneda() {
-		return tipo_moneda;
+	public String getTipoMoneda() {
+		return tipoMoneda;
 	}
 
-	public void setTipo_moneda(String tipo_moneda) {
-		this.tipo_moneda = tipo_moneda;
+	public void setTipoMoneda(String tipoMoneda) {
+		this.tipoMoneda = tipoMoneda;
 	}
 
 }

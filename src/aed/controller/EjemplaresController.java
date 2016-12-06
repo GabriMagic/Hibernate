@@ -23,9 +23,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.converter.DoubleStringConverter;
 
 public class EjemplaresController {
 	@FXML
@@ -87,19 +89,40 @@ public class EjemplaresController {
 		libroColumn.setCellFactory(ComboBoxTableCell
 				.forTableColumn(FXCollections.observableArrayList(session.createQuery("FROM Libro").list())));
 		importeColumn.setCellValueFactory(new PropertyValueFactory<>("importe"));
-		tipoMonedaColumn.setCellValueFactory(new PropertyValueFactory<>("tipo_moneda"));
+		importeColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		tipoMonedaColumn.setCellValueFactory(new PropertyValueFactory<>("tipoMoneda"));
+		tipoMonedaColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
 		libroColumn.setOnEditCommit(e -> updateLibro(e));
 		importeColumn.setOnEditCommit(e -> updateImporte(e));
+		tipoMonedaColumn.setOnEditCommit(e -> updateTipoMoneda(e));
 
+		cargarEjemplares();
+	}
+
+	private void updateTipoMoneda(CellEditEvent<Ejemplar, String> e) {
+		e.getRowValue().setTipoMoneda(e.getNewValue());
+		session.beginTransaction();
+		session.createQuery("UPDATE Ejemplar SET tipoMoneda=? WHERE codEjemplar=?").setString(0, e.getNewValue())
+				.setInteger(1, e.getRowValue().getCodEjemplar());
+		session.getTransaction().commit();
+		cargarEjemplares();
+	}
+
+	private void updateImporte(CellEditEvent<Ejemplar, Double> e) {
+		e.getRowValue().setImporte(e.getNewValue());
+		session.beginTransaction();
+		session.createQuery("UPDATE Ejemplar SET importe=? WHERE codEjemplar=?").setDouble(0, e.getNewValue())
+				.setInteger(1, e.getRowValue().getCodEjemplar());
+		session.getTransaction().commit();
 		cargarEjemplares();
 	}
 
 	private void updateLibro(CellEditEvent<Ejemplar, Libro> e) {
 		e.getRowValue().setCodLibro(e.getNewValue());
 		session.beginTransaction();
-		session.createQuery("UPDATE Ejemplar SET codLibro=? WHERE codEjemplar=?").setEntity("libro", e.getNewValue())
-				.setInteger("ejemplar", e.getRowValue().getCodEjemplar());
+		session.createQuery("UPDATE Ejemplar SET codLibro=? WHERE codEjemplar=?").setEntity(0, e.getNewValue())
+				.setInteger(1, e.getRowValue().getCodEjemplar());
 		session.getTransaction().commit();
 		cargarEjemplares();
 	}
@@ -119,7 +142,7 @@ public class EjemplaresController {
 			Ejemplar ej1 = new Ejemplar();
 			ej1.setCodLibro(libroCombo.getValue());
 			ej1.setImporte(Double.parseDouble(importeText.getText()));
-			ej1.setTipo_moneda(tipoMonedaText.getText());
+			ej1.setTipoMoneda(tipoMonedaText.getText());
 
 			session.beginTransaction();
 			session.save(ej1);

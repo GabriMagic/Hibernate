@@ -40,12 +40,9 @@ public class MainController implements Initializable {
 	private LibroController librosController;
 	private AutorController autorController;
 	private EjemplaresController ejemplaresController;
-	@SuppressWarnings("unused")
-	private Stage primaryStage;
 
 	public MainController(Stage primaryStage) {
 
-		this.primaryStage = primaryStage;
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
