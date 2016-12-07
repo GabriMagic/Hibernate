@@ -9,7 +9,7 @@ public class Datos {
 	private Date fechaIntro;
 	private Double importe;
 
-	public Datos(Ejemplar ej, Libro li, Autor au) {
+	public Datos(Ejemplar ej, Libro li, Autor au, DepositoLegal dl) {
 
 		nombreLibro = li.getNombreLibro();
 		ISBN = li.getISBN();
@@ -20,6 +20,8 @@ public class Datos {
 		codEjemplar = ej.getCodEjemplar();
 
 		autor = au.getNombreAutor();
+		
+		depositoLegal = dl.getDepositoLegal();
 	}
 
 	public int getCodLibro() {

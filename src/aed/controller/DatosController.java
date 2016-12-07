@@ -60,7 +60,7 @@ public class DatosController {
 		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fechaIntro"));
 		ejemplarColumn.setCellValueFactory(new PropertyValueFactory<>("codEjemplar"));
 		autorColumn.setCellValueFactory(new PropertyValueFactory<>("autor"));
-		depositoColumn.setCellValueFactory(new PropertyValueFactory<>("codLibroDeposito"));
+		depositoColumn.setCellValueFactory(new PropertyValueFactory<>("depositoLegal"));
 
 		listaDatos = FXCollections.observableArrayList();
 
@@ -69,38 +69,21 @@ public class DatosController {
 
 	public void cargarTodos() {
 
-//		Query query = session.createQuery("FROM Libro li "
-//				+ "LEFT JOIN li.ejemplares ej "
-//				+ "LEFT JOIN li.librosAutores la "
-//				+ "LEFT JOIN la.codAutor ");
-		
-		Query query2 = session.createQuery("FROM LibrosAutores la "
-				+ "LEFT JOIN la.codLibro li "
-				+ "LEFT JOIN la.codAutor au "
-				+ "LEFT JOIN li.ejemplares");
+		Query query2 = session.createQuery("FROM LibrosAutores la " + "LEFT JOIN la.codLibro li "
+				+ "LEFT JOIN li.ejemplares ej " + "LEFT JOIN li.codLibroDeposito ld" + "LEFT JOIN la.codAutor au ");
 
 		Iterator<?> iterator = query2.iterate();
 		while (iterator.hasNext()) {
 
 			Object[] par = (Object[]) iterator.next();
-			
+
 			Libro li = (Libro) par[1];
-			Autor au = (Autor) par[2];
-			Ejemplar ej = (Ejemplar) par[3];
-			
-//			DepositoLegal dl = (DepositoLegal) par [3];
-			
-			
-			System.out.println(li.getNombreLibro()+" , "+au.getNombreAutor());
-			
-			//			Libro li = (Libro) par[0];
-//			Ejemplar ej = (Ejemplar) par[1];
-//			Autor au = (Autor) par[3];
-//
-			Datos datos = new Datos(ej, li, au);
+			Ejemplar ej = (Ejemplar) par[2];
+			DepositoLegal dl = (DepositoLegal) par[3];
+			Autor au = (Autor) par[4];
+
+			Datos datos = new Datos(ej, li, au, dl);
 			listaDatos.add(datos);
-//
-//			System.out.println("CodLibro: " + li.getNombreLibro() + " CodEjemplar: " + ej.getImporte());
 		}
 		librosTable.setItems(listaDatos);
 
