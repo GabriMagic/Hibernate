@@ -96,6 +96,8 @@ public class LibroController {
 		stage.setScene(new Scene(new VBox()));
 
 		cargarLibros();
+		
+		delLibros.disableProperty().bind(librosTable.getSelectionModel().selectedItemProperty().isNull());
 
 	}
 

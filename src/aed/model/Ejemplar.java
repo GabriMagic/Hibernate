@@ -65,7 +65,7 @@ public class Ejemplar implements Serializable {
 	
 	@Override
 	public String toString() {
-		return getCodLibro().getNombreLibro()+" ejemplar Nº: "+getCodEjemplar();
+		return ""+getCodEjemplar();
 	}
 
 }

@@ -139,20 +139,25 @@ public class EjemplaresController {
 	void onConfirmAdd(ActionEvent event) {
 
 		try {
-			Ejemplar ej1 = new Ejemplar();
-			ej1.setCodLibro(libroCombo.getValue());
-			ej1.setImporte(Double.parseDouble(importeText.getText()));
-			ej1.setTipoMoneda(tipoMonedaText.getText());
+			try {
+				Ejemplar ej1 = new Ejemplar();
+				ej1.setCodLibro(libroCombo.getValue());
+				ej1.setImporte(Double.parseDouble(importeText.getText()));
+				ej1.setTipoMoneda(tipoMonedaText.getText());
 
-			session.beginTransaction();
-			session.save(ej1);
-			session.getTransaction().commit();
+				session.beginTransaction();
+				session.save(ej1);
+				session.getTransaction().commit();
 
-			cargarEjemplares();
+				cargarEjemplares();
 
-			stage.close();
-			libroCombo.setValue(null);
-			importeText.setText("");
+				stage.close();
+				libroCombo.setValue(null);
+				importeText.setText("");
+			} catch (Exception e) {
+				System.out.println(e.getLocalizedMessage());
+				e.printStackTrace();
+			}
 			tipoMonedaText.setText("");
 		} catch (NumberFormatException e) {
 			message.setTitle("Código Ejemplar");
@@ -166,6 +171,7 @@ public class EjemplaresController {
 	@SuppressWarnings("unchecked")
 	@FXML
 	void onAdd(ActionEvent event) {
+
 		libroCombo.setItems(FXCollections.observableArrayList(session.createQuery("from Libro").list()));
 		stage.getScene().setRoot(insertView);
 		stage.show();

@@ -11,6 +11,8 @@ import aed.model.Datos;
 import aed.model.DepositoLegal;
 import aed.model.Ejemplar;
 import aed.model.Libro;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableColumn;
@@ -35,15 +37,16 @@ public class DatosController {
 	private TableColumn<Datos, java.util.Date> fechaColumn;
 
 	@FXML
-	private TableColumn<Datos, Ejemplar> ejemplarColumn;
+	private TableColumn<Datos, Integer> ejemplarColumn;
 
 	@FXML
-	private TableColumn<Datos, Autor> autorColumn;
+	private TableColumn<Datos, String> autorColumn;
 
 	@FXML
 	private TableColumn<Datos, DepositoLegal> depositoColumn;
 
 	private Session session;
+	private ObservableList<Datos> listaDatos;
 
 	public DatosController(Session session) {
 
@@ -55,39 +58,36 @@ public class DatosController {
 		nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreLibro"));
 		isbnColumn.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
 		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fechaIntro"));
-		ejemplarColumn.setCellValueFactory(new PropertyValueFactory<>("codEjemplra"));
-		autorColumn.setCellValueFactory(new PropertyValueFactory<>("codAutor"));
+		ejemplarColumn.setCellValueFactory(new PropertyValueFactory<>("codEjemplar"));
+		autorColumn.setCellValueFactory(new PropertyValueFactory<>("autor"));
 		depositoColumn.setCellValueFactory(new PropertyValueFactory<>("codLibroDeposito"));
+
+		listaDatos = FXCollections.observableArrayList();
 
 		cargarTodos();
 	}
 
 	public void cargarTodos() {
 
-		Datos datos = new Datos();
-		
-		// CLASE LIBROS COMPLETOS CON TODOS LO DATOS PARA FORMAR LA TABLA
-		Query query = session.createQuery("FROM Ejemplar e "
-				+ "LEFT JOIN e.codLibro "
-				+ "LEFT JOIN e.codLibroDeposito "
-				);
+		Query query = session.createQuery("FROM Libro li "
+				+ "LEFT JOIN li.ejemplares ej "
+				+ "LEFT JOIN li.librosAutores la "
+				+ "LEFT JOIN la.codAutor ");
 
-		Iterator iterator = query.iterate();
+		Iterator<?> iterator = query.iterate();
 		while (iterator.hasNext()) {
+
 			Object[] par = (Object[]) iterator.next();
-			Ejemplar ej = (Ejemplar) par[0];
-			Libro li = (Libro) par[1];
-			
-			datos.setCodEjemplar(ej.getCodEjemplar());
-			datos.setCodLibro(li.getCodLibro());
-			datos.setNombreLibro(li.getNombreLibro());
-			datos.setFechaIntro(li.getFechaIntro());
-			
-//			Autor au = (Autor) par[2];
-			
-			System.out.println("COdLibro: " + li.getCodLibro() + " CodEjemplar: " + ej.getCodEjemplar());
+			Libro li = (Libro) par[0];
+			Ejemplar ej = (Ejemplar) par[1];
+			Autor au = (Autor) par[3];
+
+			Datos datos = new Datos(ej, li, au);
+			listaDatos.add(datos);
+
+			System.out.println("CodLibro: " + li.getNombreLibro() + " CodEjemplar: " + ej.getImporte());
 		}
-		// librosTable.setItems(FXCollections.observableArrayList());
+		librosTable.setItems(listaDatos);
 
 	}
 
@@ -121,11 +121,11 @@ public class DatosController {
 		return fechaColumn;
 	}
 
-	public TableColumn<Datos, Ejemplar> getEjemplarColumn() {
+	public TableColumn<Datos, Integer> getEjemplarColumn() {
 		return ejemplarColumn;
 	}
 
-	public TableColumn<Datos, Autor> getAutorColumn() {
+	public TableColumn<Datos, String> getAutorColumn() {
 		return autorColumn;
 	}
 

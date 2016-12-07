@@ -5,12 +5,21 @@ import java.sql.Date;
 public class Datos {
 
 	private int codLibro, codEjemplar;
-	private String nombreLibro, ISBN, tipoMoneda, Autor, codAutor, depositoLegal;
+	private String nombreLibro, ISBN, tipoMoneda, autor, codAutor, depositoLegal;
 	private Date fechaIntro;
 	private Double importe;
 
-	public Datos() {
+	public Datos(Ejemplar ej, Libro li, Autor au) {
 
+		nombreLibro = li.getNombreLibro();
+		ISBN = li.getISBN();
+		codLibro = li.getCodLibro();
+		fechaIntro = li.getFechaIntro();
+
+		importe = ej.getImporte();
+		codEjemplar = ej.getCodEjemplar();
+
+		autor = au.getNombreAutor();
 	}
 
 	public int getCodLibro() {
@@ -54,11 +63,11 @@ public class Datos {
 	}
 
 	public String getAutor() {
-		return Autor;
+		return autor;
 	}
 
 	public void setAutor(String autor) {
-		Autor = autor;
+		this.autor = autor;
 	}
 
 	public String getCodAutor() {

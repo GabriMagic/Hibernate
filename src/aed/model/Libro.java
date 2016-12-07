@@ -2,12 +2,15 @@ package aed.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -28,6 +31,12 @@ public class Libro implements Serializable {
 	@Column(columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date fechaIntro;
 
+	@OneToMany(mappedBy="codEjemplar")
+	private List<Ejemplar> ejemplares = new ArrayList<Ejemplar>();
+	
+	@OneToMany(mappedBy="codLibro")
+	private List<LibrosAutores> librosAutores = new ArrayList<LibrosAutores>();
+	
 	public int getCodLibro() {
 		return codLibro;
 	}
