@@ -69,23 +69,38 @@ public class DatosController {
 
 	public void cargarTodos() {
 
-		Query query = session.createQuery("FROM Libro li "
-				+ "LEFT JOIN li.ejemplares ej "
-				+ "LEFT JOIN li.librosAutores la "
-				+ "LEFT JOIN la.codAutor ");
+//		Query query = session.createQuery("FROM Libro li "
+//				+ "LEFT JOIN li.ejemplares ej "
+//				+ "LEFT JOIN li.librosAutores la "
+//				+ "LEFT JOIN la.codAutor ");
+		
+		Query query2 = session.createQuery("FROM LibrosAutores la "
+				+ "LEFT JOIN la.codLibro li "
+				+ "LEFT JOIN la.codAutor au "
+				+ "LEFT JOIN li.ejemplares");
 
-		Iterator<?> iterator = query.iterate();
+		Iterator<?> iterator = query2.iterate();
 		while (iterator.hasNext()) {
 
 			Object[] par = (Object[]) iterator.next();
-			Libro li = (Libro) par[0];
-			Ejemplar ej = (Ejemplar) par[1];
-			Autor au = (Autor) par[3];
-
+			
+			Libro li = (Libro) par[1];
+			Autor au = (Autor) par[2];
+			Ejemplar ej = (Ejemplar) par[3];
+			
+//			DepositoLegal dl = (DepositoLegal) par [3];
+			
+			
+			System.out.println(li.getNombreLibro()+" , "+au.getNombreAutor());
+			
+			//			Libro li = (Libro) par[0];
+//			Ejemplar ej = (Ejemplar) par[1];
+//			Autor au = (Autor) par[3];
+//
 			Datos datos = new Datos(ej, li, au);
 			listaDatos.add(datos);
-
-			System.out.println("CodLibro: " + li.getNombreLibro() + " CodEjemplar: " + ej.getImporte());
+//
+//			System.out.println("CodLibro: " + li.getNombreLibro() + " CodEjemplar: " + ej.getImporte());
 		}
 		librosTable.setItems(listaDatos);
 

@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -31,11 +33,12 @@ public class Libro implements Serializable {
 	@Column(columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date fechaIntro;
 
-	@OneToMany(mappedBy="codEjemplar")
+	@OneToMany(mappedBy = "codEjemplar")
 	private List<Ejemplar> ejemplares = new ArrayList<Ejemplar>();
-	
-	@OneToMany(mappedBy="codLibro")
-	private List<LibrosAutores> librosAutores = new ArrayList<LibrosAutores>();
+
+	@OneToOne
+	@PrimaryKeyJoinColumn
+	private DepositoLegal codLibroDeposito;
 	
 	public int getCodLibro() {
 		return codLibro;
