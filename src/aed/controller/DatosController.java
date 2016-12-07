@@ -69,8 +69,11 @@ public class DatosController {
 
 	public void cargarTodos() {
 
-		Query query2 = session.createQuery("FROM LibrosAutores la " + "LEFT JOIN la.codLibro li "
-				+ "LEFT JOIN li.ejemplares ej " + "LEFT JOIN li.codLibroDeposito ld" + "LEFT JOIN la.codAutor au ");
+		Query query2 = session.createQuery("FROM LibrosAutores la "
+				+ "LEFT JOIN la.codLibro li "
+				+ "LEFT JOIN li.ejemplares ej "
+				+ "LEFT JOIN li.codLibroDeposito ld"
+				+ "LEFT JOIN la.codAutor au ");
 
 		Iterator<?> iterator = query2.iterate();
 		while (iterator.hasNext()) {
