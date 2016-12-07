@@ -64,7 +64,7 @@ public class DatosController {
 
 		listaDatos = FXCollections.observableArrayList();
 
-		cargarTodos();
+//		cargarTodos();
 	}
 
 	public void cargarTodos() {

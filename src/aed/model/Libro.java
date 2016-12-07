@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class Libro implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int codLibro;
 
 	@Column(columnDefinition = "VARCHAR(40)")
