@@ -36,7 +36,7 @@ public class DatosController {
 	private TableColumn<Datos, String> isbnColumn;
 
 	@FXML
-	private TableColumn<Datos, java.util.Date> fechaColumn;
+	private TableColumn<Datos, Double> importeColumn;
 
 	@FXML
 	private TableColumn<Datos, Integer> ejemplarColumn;
@@ -62,7 +62,7 @@ public class DatosController {
 		codigoColumn.setCellValueFactory(new PropertyValueFactory<>("codLibro"));
 		nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreLibro"));
 		isbnColumn.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
-		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fechaIntro"));
+		importeColumn.setCellValueFactory(new PropertyValueFactory<>("importe"));
 		ejemplarColumn.setCellValueFactory(new PropertyValueFactory<>("codEjemplar"));
 		autorColumn.setCellValueFactory(new PropertyValueFactory<>("autor"));
 		depositoColumn.setCellValueFactory(new PropertyValueFactory<>("depositoLegal"));
@@ -135,8 +135,8 @@ public class DatosController {
 		return isbnColumn;
 	}
 
-	public TableColumn<Datos, java.util.Date> getFechaColumn() {
-		return fechaColumn;
+	public TableColumn<Datos, Double> getImporteColumn() {
+		return importeColumn;
 	}
 
 	public TableColumn<Datos, Integer> getEjemplarColumn() {

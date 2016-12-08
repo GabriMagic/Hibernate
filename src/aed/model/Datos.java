@@ -6,7 +6,6 @@ public class Datos {
 
 	private int codLibro, codEjemplar;
 	private String nombreLibro, ISBN, tipoMoneda, autor, codAutor, depositoLegal;
-	private Date fechaIntro;
 	private Double importe;
 
 	public Datos(Ejemplar ej, Libro li, Autor au, DepositoLegal dl) {
@@ -14,14 +13,13 @@ public class Datos {
 		nombreLibro = li.getNombreLibro();
 		ISBN = li.getISBN();
 		codLibro = li.getCodLibro();
-		fechaIntro = li.getFechaIntro();
 
 		try {
 			importe = ej.getImporte();
 		} catch (NullPointerException e1) {
 			importe = 0.0;
 		}
-		
+
 		try {
 			codEjemplar = ej.getCodEjemplar();
 		} catch (NullPointerException e1) {
@@ -104,14 +102,6 @@ public class Datos {
 
 	public void setDepositoLegal(String depositoLegal) {
 		this.depositoLegal = depositoLegal;
-	}
-
-	public Date getFechaIntro() {
-		return fechaIntro;
-	}
-
-	public void setFechaIntro(Date fechaIntro) {
-		this.fechaIntro = fechaIntro;
 	}
 
 	public Double getImporte() {
