@@ -7,8 +7,6 @@ import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.sound.sampled.spi.FormatConversionProvider;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 
