@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
@@ -13,4 +15,11 @@
       <TableColumn fx:id="autorColumn" prefWidth="68.0" text="Autor" />
       <TableColumn fx:id="depositoColumn" prefWidth="130.0" text="Depósito Legal" />
    </columns>
+   <contextMenu>
+      <ContextMenu>
+        <items>
+          <MenuItem fx:id="actualizarMenu" mnemonicParsing="false" onAction="#onActualizar" text="Actualizar" />
+        </items>
+      </ContextMenu>
+   </contextMenu>
 </TableView>

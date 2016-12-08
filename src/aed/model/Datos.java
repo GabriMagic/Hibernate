@@ -16,12 +16,30 @@ public class Datos {
 		codLibro = li.getCodLibro();
 		fechaIntro = li.getFechaIntro();
 
-		importe = ej.getImporte();
-		codEjemplar = ej.getCodEjemplar();
-
-		autor = au.getNombreAutor();
+		try {
+			importe = ej.getImporte();
+		} catch (NullPointerException e1) {
+			importe = 0.0;
+		}
 		
-		depositoLegal = dl.getDepositoLegal();
+		try {
+			codEjemplar = ej.getCodEjemplar();
+		} catch (NullPointerException e1) {
+			codEjemplar = 0;
+		}
+
+		try {
+			autor = au.getNombreAutor();
+		} catch (NullPointerException e1) {
+			autor = "";
+		}
+
+		try {
+			depositoLegal = dl.getDepositoLegal();
+		} catch (NullPointerException e) {
+			depositoLegal = "";
+		}
+
 	}
 
 	public int getCodLibro() {

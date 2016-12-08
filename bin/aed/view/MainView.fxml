@@ -15,6 +15,6 @@
 		<Tab fx:id="autoresTab" text="Autores" />
 		<Tab fx:id="ejemplaresTab" text="Ejemplares" />
 		<Tab fx:id="depositoLegalTab" text="Depósito Legal" />
-		<Tab fx:id="librosAutoresTab" text="Libros Autores" />
+		<Tab fx:id="librosAutoresTab" text="Libros - Autores" />
 	</tabs>
 </TabPane>

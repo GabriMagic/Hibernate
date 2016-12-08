@@ -13,8 +13,10 @@ import aed.model.Ejemplar;
 import aed.model.Libro;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -45,6 +47,9 @@ public class DatosController {
 	@FXML
 	private TableColumn<Datos, DepositoLegal> depositoColumn;
 
+	@FXML
+	private MenuItem actualizarMenu;
+
 	private Session session;
 	private ObservableList<Datos> listaDatos;
 
@@ -67,23 +72,34 @@ public class DatosController {
 		cargarTodos();
 	}
 
+	@FXML
+	void onActualizar(ActionEvent event) {
+		librosTable.getItems().removeAll(listaDatos);
+		cargarTodos();
+	}
+
 	public void cargarTodos() {
 
 		Query query2 = session.createQuery("FROM LibrosAutores la "
 				+ "LEFT JOIN la.codLibro li "
 				+ "LEFT JOIN li.ejemplares ej "
 				+ "LEFT JOIN li.codLibroDeposito ld"
-				+ "LEFT JOIN la.codAutor au ");
+				+ "INNER JOIN la.codAutor au ");
 
 		Iterator<?> iterator = query2.iterate();
 		while (iterator.hasNext()) {
 
 			Object[] par = (Object[]) iterator.next();
 
-			Libro li = (Libro) par[1];
+		
+
+			Libro li = new Libro();
+			li = (Libro) par[1];
 			Ejemplar ej = (Ejemplar) par[2];
 			DepositoLegal dl = (DepositoLegal) par[3];
 			Autor au = (Autor) par[4];
+
+//			System.out.println(dl.getDepositoLegal());
 
 			Datos datos = new Datos(ej, li, au, dl);
 			listaDatos.add(datos);
@@ -92,6 +108,7 @@ public class DatosController {
 
 	}
 
+	
 	private void FXMLloads() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/DatosView.fxml"));

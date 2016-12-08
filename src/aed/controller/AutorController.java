@@ -10,11 +10,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -35,6 +38,21 @@ public class AutorController {
 	@FXML
 	private MenuItem delAutor;
 
+	@FXML
+	private GridPane insertView;
+
+	@FXML
+	private TextField codigoText;
+
+	@FXML
+	private TextField nombreText;
+
+	@FXML
+	private Button confirmButton;
+
+	@FXML
+	private Button cancelButton;
+
 	private Session session;
 	private Stage stage;
 
@@ -48,15 +66,45 @@ public class AutorController {
 		nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreAutor"));
 
 		stage = new Stage();
+		stage.setTitle("Insertar Autor");
 		stage.setScene(new Scene(new VBox()));
 
-		mostrarAutores();
+		cargarAutores();
+
+		confirmButton.disableProperty()
+				.bind(codigoText.textProperty().isEmpty().and(nombreText.textProperty().isEmpty()));
 
 	}
 
 	@FXML
+	void onConfirm(ActionEvent event) {
+
+		Autor a1 = new Autor();
+		a1.setCodAutor(codigoText.getText());
+		a1.setNombreAutor(nombreText.getText());
+
+		session.beginTransaction();
+		session.save(a1);
+		session.getTransaction().commit();
+
+		cargarAutores();
+		nombreText.setText("");
+		codigoText.setText("");
+		stage.close();
+
+	}
+
+	@FXML
+	void onCancel(ActionEvent event) {
+		nombreText.setText("");
+		codigoText.setText("");
+		stage.close();
+	}
+
+	@FXML
 	void onAddAutor(ActionEvent event) {
-//		stage.getScene().setRoot();
+		stage.getScene().setRoot(insertView);
+		stage.show();
 	}
 
 	@FXML
@@ -65,7 +113,7 @@ public class AutorController {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void mostrarAutores() {
+	private void cargarAutores() {
 		autoresTable.setItems(FXCollections.observableArrayList(session.createQuery("FROM Autor").list()));
 	}
 
@@ -74,10 +122,10 @@ public class AutorController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/AutoresView.fxml"));
 			loader.setController(this);
 			autoresTable = loader.load();
-			
-//			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/AutoresView.fxml"));
-//			loader.setController(this);
-//			autoresTable = loader.load();
+
+			FXMLLoader loaderInsert = new FXMLLoader(getClass().getResource("/aed/view/InsertAutorView.fxml"));
+			loaderInsert.setController(this);
+			insertView = loaderInsert.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -33,13 +33,13 @@ public class Libro implements Serializable {
 	@Column(columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date fechaIntro;
 
-	@OneToMany(mappedBy = "codEjemplar")
+	@OneToMany(mappedBy = "codLibro")
 	private List<Ejemplar> ejemplares = new ArrayList<Ejemplar>();
 
 	@OneToOne
 	@PrimaryKeyJoinColumn
 	private DepositoLegal codLibroDeposito;
-	
+
 	public int getCodLibro() {
 		return codLibro;
 	}
