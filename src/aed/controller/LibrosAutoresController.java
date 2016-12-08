@@ -41,8 +41,8 @@ public class LibrosAutoresController {
 
 	@SuppressWarnings("unchecked")
 	public void cargarLibrosAutores() {
-		librosAutoresTable
-				.setItems(FXCollections.observableArrayList(session.createQuery("FROM LibrosAutores").list()));
+		librosAutoresTable.getItems().removeAll(FXCollections.observableArrayList(session.createQuery("FROM LibrosAutores").list()));
+		librosAutoresTable.setItems(FXCollections.observableArrayList(session.createQuery("FROM LibrosAutores").list()));
 	}
 
 	private void FXMLloads() {

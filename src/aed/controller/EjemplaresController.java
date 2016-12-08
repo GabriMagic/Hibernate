@@ -104,6 +104,8 @@ public class EjemplaresController {
 		tipoMonedaColumn.setOnEditCommit(e -> updateTipoMoneda(e));
 
 		cargarEjemplares();
+		
+		delete.disableProperty().bind(ejemplarTable.getSelectionModel().selectedItemProperty().isNull());
 	}
 
 	private void updateTipoMoneda(CellEditEvent<Ejemplar, String> e) {
@@ -144,9 +146,9 @@ public class EjemplaresController {
 	@FXML
 	void onConfirmAdd(ActionEvent event) {
 
+		session.beginTransaction();
 		try {
 			try {
-				session.beginTransaction();
 
 				Ejemplar ej1 = new Ejemplar();
 				ej1.setCodLibro(libroCombo.getValue());
@@ -186,11 +188,16 @@ public class EjemplaresController {
 
 	@FXML
 	void onDelete(ActionEvent event) {
-
+		session.beginTransaction();
+		session.createQuery("DELETE FROM Ejemplar WHERE codEjemplar = ?")
+				.setInteger(0, ejemplarTable.getSelectionModel().getSelectedItem().getCodEjemplar()).executeUpdate();
+		session.getTransaction().commit();
+		cargarEjemplares();
 	}
 
 	@SuppressWarnings("unchecked")
-	private void cargarEjemplares() {
+	public void cargarEjemplares() {
+		ejemplarTable.getItems().removeAll(FXCollections.observableArrayList(session.createQuery("FROM Ejemplar").list()));
 		ejemplarTable.setItems(FXCollections.observableArrayList(session.createQuery("FROM Ejemplar").list()));
 	}
 

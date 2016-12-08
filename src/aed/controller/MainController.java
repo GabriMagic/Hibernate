@@ -117,6 +117,14 @@ public class MainController implements Initializable {
 		datosTab.setContent(datosController.getLibrosTable());
 		librosAutoresTab.setContent(librosAutoresController.getLibrosAutoresTable());
 		depositoLegalTab.setContent(depositoLegalController.getDepositoLegalTable());
+		
+		librosController.getLibrosTable().itemsProperty().addListener(e -> {
+			ejemplaresController.cargarEjemplares();
+			datosController.cargarTodos();
+			librosAutoresController.cargarLibrosAutores();
+			depositoLegalController.cargarDepositoLegal();
+		});
+		
 
 	}
 

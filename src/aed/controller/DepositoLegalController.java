@@ -39,8 +39,8 @@ public class DepositoLegalController {
 
 	@SuppressWarnings("unchecked")
 	public void cargarDepositoLegal() {
-		depositoLegalTable
-				.setItems(FXCollections.observableArrayList(sesison.createQuery("FROM DepositoLegal").list()));
+		depositoLegalTable.getItems().removeAll(FXCollections.observableArrayList(sesison.createQuery("FROM DepositoLegal").list()));
+		depositoLegalTable.setItems(FXCollections.observableArrayList(sesison.createQuery("FROM DepositoLegal").list()));
 	}
 
 	private void FXMLloads() {

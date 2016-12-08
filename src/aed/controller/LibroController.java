@@ -4,14 +4,18 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 import aed.model.Autor;
+import aed.model.HibernateUtil;
 import aed.model.Libro;
+import aed.model.LibrosAutores;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +25,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -83,6 +89,22 @@ public class LibroController {
 	@FXML
 	private ListView<Autor> listaAutores;
 
+	@FXML
+	private GridPane addLibroAutor;
+
+	@FXML
+	private ComboBox<Libro> librosCombo;
+
+	@FXML
+	private ComboBox<Autor> autoresCombo;
+
+    @FXML
+    private Button confirmLibroAutorButton;
+
+    @FXML
+    private Button cancelLibroAutorButton;
+
+
 	private Session session;
 	private Stage stage;
 	private Pattern pattern;
@@ -128,30 +150,80 @@ public class LibroController {
 	}
 
 	private void updateIsbnLibro(CellEditEvent<Libro, String> e) {
-		Matcher mat = pattern.matcher(e.getNewValue());
-		if (mat.matches()) {
-			e.getRowValue().setISBN(e.getNewValue());
-			session.beginTransaction();
-			session.createQuery("UPDATE Libro SET ISBN=:isbn WHERE codLibro=:libro").setString("isbn", e.getNewValue())
-					.setInteger("libro", e.getRowValue().getCodLibro()).executeUpdate();
-			session.getTransaction().commit();
+		try {
+			Matcher mat = pattern.matcher(e.getNewValue());
+			if (mat.matches()) {
+				e.getRowValue().setISBN(e.getNewValue());
+				session.beginTransaction();
+				session.createQuery("UPDATE Libro SET ISBN=:isbn WHERE codLibro=:libro")
+						.setString("isbn", e.getNewValue()).setInteger("libro", e.getRowValue().getCodLibro())
+						.executeUpdate();
+				session.getTransaction().commit();
+				cargarLibros();
+			}
+		} catch (Exception e1) {
+			messageAlert.setAlertType(AlertType.ERROR);
+			messageAlert.setTitle("Duplicate Key " + e.getNewValue());
+			messageAlert.setHeaderText("Error al insertar el nuevo ISBN.");
+			messageAlert.setContentText("Ya existe un libro con el ISBN: " + e.getNewValue());
+			messageAlert.show();
+			session.getTransaction().rollback();
 			cargarLibros();
 		}
 	}
 
 	@FXML
-	void onAddAutor(ActionEvent event) {
+    void onCancel(ActionEvent event) {
+		librosCombo.setValue(null);
+		autoresCombo.setValue(null);
+		stage.close();
+    }
 
+    @FXML
+    void onLibroAutorConfirm(ActionEvent event) {
+
+    	try {
+			session.beginTransaction();
+			
+			LibrosAutores la = new LibrosAutores();
+			la.setCodAutor(autoresCombo.getValue());
+			la.setCodLibro(librosCombo.getValue());
+			
+			session.save(la);
+			session.getTransaction().commit();
+			stage.close();
+		} catch (NonUniqueObjectException e) {
+			messageAlert.setAlertType(AlertType.ERROR);
+			messageAlert.setTitle("Libro - Autor");
+			messageAlert.setHeaderText("Error al añadir el autor al libro seleccionado.");
+			messageAlert.setContentText("Ya existe esa relación en la tabla, elija otro libro u otro autor.");
+			messageAlert.show();
+			session.getTransaction().rollback();
+		}
+    	
+    	
+    }
+	
+	@SuppressWarnings("unchecked")
+	@FXML
+	void onAddAutor(ActionEvent event) {
+		
+		librosCombo.setItems(FXCollections.observableArrayList(session.createQuery("FROM Libro").list()));
+		autoresCombo.setItems(FXCollections.observableArrayList(session.createQuery("FROM Autor").list()));
+		
+		stage.getScene().setRoot(addLibroAutor);
+		stage.setTitle("Añadir Autor");
+		stage.show();
 	}
 
 	@FXML
 	void onMostrar(ActionEvent event) {
 
 		autores = FXCollections.observableArrayList();
-		
-		Query query = session.createQuery("FROM LibrosAutores la "
-		+ "INNER JOIN la.codAutor "
-		+ "WHERE la.codLibro = ?")
+
+		session = HibernateUtil.getSessionFactory().openSession();
+		Query query = session
+				.createQuery("FROM LibrosAutores la " + "INNER JOIN la.codAutor " + "WHERE la.codLibro = ?")
 				.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro());
 
 		Iterator<?> iterator = query.iterate();
@@ -159,9 +231,9 @@ public class LibroController {
 			Object[] result = (Object[]) iterator.next();
 
 			Autor au = (Autor) result[1];
-			
+
 			System.out.println(au);
-			
+
 			autores.add(au);
 		}
 
@@ -215,21 +287,41 @@ public class LibroController {
 
 	@FXML
 	void onDelLibros(ActionEvent event) {
-		System.out.println("Borrar" + librosTable.getSelectionModel().getSelectedItem().getCodLibro());
 
 		session.beginTransaction();
-		session.createQuery("DELETE FROM Libro WHERE codLibro = ?")
-				.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
-		session.getTransaction().commit();
-		cargarLibros();
+		try {
+			session.createQuery("DELETE FROM Libro WHERE codLibro = ?")
+					.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+			session.getTransaction().commit();
+			cargarLibros();
+		} catch (Exception e) {
+			try {
+				messageAlert.setAlertType(AlertType.ERROR);
+				messageAlert.setTitle("Eliminar Libro");
+				messageAlert.setHeaderText("Error al eliminar el libro. Tiene ejemplares.");
+				messageAlert.setContentText("¿Desea eliminar todos sus ejemplares?");
+				if (messageAlert.showAndWait().get() == ButtonType.OK) {
+					session.createQuery("DELETE FROM Ejemplar WHERE codLibro = ?")
+							.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro())
+							.executeUpdate();
+					session.getTransaction().commit();
+
+					session.beginTransaction();
+					session.createQuery("DELETE FROM Libro WHERE codLibro = ?")
+							.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro())
+							.executeUpdate();
+					session.getTransaction().commit();
+					cargarLibros();
+				}
+			} catch (NoSuchElementException e1) {
+			}
+
+		}
 
 	}
 
 	@SuppressWarnings("unchecked")
 	public void cargarLibros() {
-		// Query query = session.createQuery("from Libro");
-		// List<Libro> libros = query.list();
-		// Version resumida
 		librosTable.setItems(FXCollections.observableArrayList(session.createQuery("from Libro").list()));
 	}
 
@@ -246,6 +338,10 @@ public class LibroController {
 			FXMLLoader loaderAutores = new FXMLLoader(getClass().getResource("/aed/view/ListaAutoresView.fxml"));
 			loaderAutores.setController(this);
 			listaAutores = loaderAutores.load();
+
+			FXMLLoader loaderLibrosAutores = new FXMLLoader(getClass().getResource("/aed/view/AddLibroAutorView.fxml"));
+			loaderLibrosAutores.setController(this);
+			addLibroAutor = loaderLibrosAutores.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

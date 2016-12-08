@@ -79,7 +79,9 @@ public class DatosController {
 	}
 
 	public void cargarTodos() {
-
+		
+		listaDatos.removeAll(listaDatos);
+		
 		Query query2 = session.createQuery("FROM LibrosAutores la "
 				+ "RIGHT JOIN la.codLibro li "
 				+ "LEFT JOIN li.codLibroDeposito ld"
