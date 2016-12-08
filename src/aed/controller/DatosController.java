@@ -80,8 +80,11 @@ public class DatosController {
 
 	public void cargarTodos() {
 
-		Query query2 = session.createQuery("FROM LibrosAutores la " + "RIGHT JOIN la.codLibro li "
-				+ "LEFT JOIN li.ejemplares ej " + "LEFT JOIN li.codLibroDeposito ld" + "LEFT JOIN la.codAutor au ");
+		Query query2 = session.createQuery("FROM LibrosAutores la "
+				+ "RIGHT JOIN la.codLibro li "
+				+ "LEFT JOIN li.codLibroDeposito ld"
+				+ "RIGHT JOIN li.ejemplares ej "
+				+ "LEFT JOIN la.codAutor au ");
 
 		Iterator<?> iterator = query2.iterate();
 		while (iterator.hasNext()) {
@@ -89,9 +92,17 @@ public class DatosController {
 			Object[] result = (Object[]) iterator.next();
 
 			Libro li = (Libro) result[1];
-			Ejemplar ej = (Ejemplar) result[2];
-			DepositoLegal dl = (DepositoLegal) result[3];
+			DepositoLegal dl = (DepositoLegal) result[2];
+			Ejemplar ej = (Ejemplar) result[3];
 			Autor au = (Autor) result[4];
+
+			try {
+				System.out.println("Libro: " + li.getNombreLibro() + ", Ejemplar: " + ej.getCodEjemplar()
+						+ ", Deposito: " + dl.getDepositoLegal() + ", Autor: " + au.getNombreAutor());
+			} catch (NullPointerException e) {
+				dl = new DepositoLegal();
+				dl.setDepositoLegal("");
+			}
 
 			Datos datos = new Datos(ej, li, au, dl);
 			listaDatos.add(datos);
