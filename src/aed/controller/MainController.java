@@ -42,6 +42,7 @@ public class MainController implements Initializable {
 	private EjemplaresController ejemplaresController;
 	private DatosController datosController;
 	private LibrosAutoresController librosAutoresController;
+	private DepositoLegalController depositoLegalController;
 
 	public MainController(Stage primaryStage) {
 
@@ -107,6 +108,7 @@ public class MainController implements Initializable {
 		ejemplaresController = new EjemplaresController(session);
 		datosController = new DatosController(session);
 		librosAutoresController = new LibrosAutoresController(session);
+		depositoLegalController = new DepositoLegalController(session);
 		
 
 		librosTab.setContent(librosController.getLibrosTable());
@@ -114,6 +116,7 @@ public class MainController implements Initializable {
 		ejemplaresTab.setContent(ejemplaresController.getEjemplarTable());
 		datosTab.setContent(datosController.getLibrosTable());
 		librosAutoresTab.setContent(librosAutoresController.getLibrosAutoresTable());
+		depositoLegalTab.setContent(depositoLegalController.getDepositoLegalTable());
 
 	}
 
