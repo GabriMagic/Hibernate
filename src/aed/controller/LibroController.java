@@ -3,15 +3,19 @@ package aed.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.sound.sampled.spi.FormatConversionProvider;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import aed.model.Autor;
 import aed.model.Libro;
-import aed.model.LibrosAutores;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -79,12 +83,13 @@ public class LibroController {
 	private GridPane insertView;
 
 	@FXML
-	private ListView<LibrosAutores> listaAutores;
+	private ListView<Autor> listaAutores;
 
 	private Session session;
 	private Stage stage;
 	private Pattern pattern;
 	private Alert messageAlert;
+	private ObservableList<Autor> autores;
 
 	public LibroController(Session session) {
 
@@ -144,12 +149,25 @@ public class LibroController {
 	@FXML
 	void onMostrar(ActionEvent event) {
 
+		autores = FXCollections.observableArrayList();
+		
 		Query query = session.createQuery("FROM LibrosAutores la "
-				+ "INNER JOIN la.codLibro "
-				+ "WHERE codLibro = ?").setInteger(0,
-				librosTable.getSelectionModel().getSelectedItem().getCodLibro());
+		+ "INNER JOIN la.codAutor "
+		+ "WHERE la.codLibro = ?")
+				.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro());
 
-		// listaAutores.setItems(FXCollections.observableArrayList();
+		Iterator<?> iterator = query.iterate();
+		while (iterator.hasNext()) {
+			Object[] result = (Object[]) iterator.next();
+
+			Autor au = (Autor) result[1];
+			
+			System.out.println(au);
+			
+			autores.add(au);
+		}
+
+		listaAutores.setItems(FXCollections.observableArrayList(autores));
 		stage.setTitle("Libro: " + librosTable.getSelectionModel().getSelectedItem());
 		stage.getScene().setRoot(listaAutores);
 		stage.show();

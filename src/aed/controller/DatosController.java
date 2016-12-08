@@ -89,15 +89,15 @@ public class DatosController {
 		Iterator<?> iterator = query2.iterate();
 		while (iterator.hasNext()) {
 
-			Object[] par = (Object[]) iterator.next();
+			Object[] result = (Object[]) iterator.next();
 
 		
 
 			Libro li = new Libro();
-			li = (Libro) par[1];
-			Ejemplar ej = (Ejemplar) par[2];
-			DepositoLegal dl = (DepositoLegal) par[3];
-			Autor au = (Autor) par[4];
+			li = (Libro) result[1];
+			Ejemplar ej = (Ejemplar) result[2];
+			DepositoLegal dl = (DepositoLegal) result[3];
+			Autor au = (Autor) result[4];
 
 //			System.out.println(dl.getDepositoLegal());
 
