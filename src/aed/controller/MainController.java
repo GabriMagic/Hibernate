@@ -85,17 +85,17 @@ public class MainController implements Initializable {
 		// a1.setNombreAutor("Xilerth");
 
 		Ejemplar ej1 = new Ejemplar();
-		ej1.setCodLibro(l2);
+		ej1.setCodLibro(l1);
 		ej1.setImporte(95.30);
 		ej1.setTipoMoneda("EUROS");
 
 		DepositoLegal dl1 = new DepositoLegal();
-		dl1.setCodLibroDeposito(l2);
+		dl1.setCodLibroDeposito(l1);
 		dl1.setDepositoLegal("Que va aqui?");
 
 		LibrosAutores la1 = new LibrosAutores();
 		la1.setCodAutor(a1);
-		la1.setCodLibro(l2);
+		la1.setCodLibro(l1);
 
 		session.save(l1);
 		session.save(l2);

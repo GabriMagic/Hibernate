@@ -3,15 +3,14 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-
-<TableView fx:id="librosTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="585.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60">
+<TableView fx:id="librosTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
    <columns>
-      <TableColumn fx:id="codigoColumn" prefWidth="75.0" text="codLibro" />
-      <TableColumn fx:id="nombreColumn" prefWidth="75.0" text="Nombre" />
-      <TableColumn fx:id="isbnColumn" prefWidth="75.0" text="ISBN" />
-      <TableColumn fx:id="fechaColumn" prefWidth="75.0" text="Fecha Intro" />
-      <TableColumn fx:id="ejemplarColumn" prefWidth="105.0" text="Ejemplar" />
-      <TableColumn fx:id="autorColumn" prefWidth="75.0" text="Autor" />
-      <TableColumn fx:id="depositoColumn" prefWidth="104.0" text="Depósito Legal" />
+      <TableColumn fx:id="codigoColumn" prefWidth="59.0" text="codLibro" />
+      <TableColumn fx:id="nombreColumn" prefWidth="121.0" text="Nombre" />
+      <TableColumn fx:id="isbnColumn" prefWidth="93.0" text="ISBN" />
+      <TableColumn fx:id="fechaColumn" prefWidth="71.0" text="Fecha Intro" />
+      <TableColumn fx:id="ejemplarColumn" prefWidth="58.0" text="Ejemplar" />
+      <TableColumn fx:id="autorColumn" prefWidth="68.0" text="Autor" />
+      <TableColumn fx:id="depositoColumn" prefWidth="130.0" text="Depósito Legal" />
    </columns>
 </TableView>

@@ -140,12 +140,13 @@ public class EjemplaresController {
 
 		try {
 			try {
+				session.beginTransaction();
+
 				Ejemplar ej1 = new Ejemplar();
 				ej1.setCodLibro(libroCombo.getValue());
 				ej1.setImporte(Double.parseDouble(importeText.getText()));
 				ej1.setTipoMoneda(tipoMonedaText.getText());
 
-				session.beginTransaction();
 				session.save(ej1);
 				session.getTransaction().commit();
 
