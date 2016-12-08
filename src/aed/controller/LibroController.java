@@ -28,6 +28,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class LibroController {
@@ -93,6 +94,7 @@ public class LibroController {
 		
 		stage = new Stage();
 		stage.getIcons().add(new Image(getClass().getResource("/resources/db.png").toExternalForm()));
+		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setScene(new Scene(new VBox()));
 
 		cargarLibros();

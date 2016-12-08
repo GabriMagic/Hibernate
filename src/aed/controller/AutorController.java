@@ -17,8 +17,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class AutorController {
@@ -67,6 +69,8 @@ public class AutorController {
 
 		stage = new Stage();
 		stage.setTitle("Insertar Autor");
+		stage.getIcons().add(new Image(getClass().getResource("/resources/db.png").toExternalForm()));
+		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setScene(new Scene(new VBox()));
 
 		cargarAutores();

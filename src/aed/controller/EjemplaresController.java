@@ -24,8 +24,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 
@@ -80,6 +82,10 @@ public class EjemplaresController {
 
 		stage = new Stage();
 		stage.setScene(new Scene(new VBox()));
+		stage.getIcons().add(new Image(getClass().getResource("/resources/db.png").toExternalForm()));
+		stage.setTitle("Insertar Ejemplar");
+		stage.initModality(Modality.APPLICATION_MODAL);
+		
 		message = new Alert(AlertType.ERROR);
 
 		FXMLloads();
