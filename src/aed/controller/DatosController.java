@@ -80,26 +80,18 @@ public class DatosController {
 
 	public void cargarTodos() {
 
-		Query query2 = session.createQuery("FROM LibrosAutores la "
-				+ "LEFT JOIN la.codLibro li "
-				+ "LEFT JOIN li.ejemplares ej "
-				+ "LEFT JOIN li.codLibroDeposito ld"
-				+ "INNER JOIN la.codAutor au ");
+		Query query2 = session.createQuery("FROM LibrosAutores la " + "RIGHT JOIN la.codLibro li "
+				+ "LEFT JOIN li.ejemplares ej " + "LEFT JOIN li.codLibroDeposito ld" + "LEFT JOIN la.codAutor au ");
 
 		Iterator<?> iterator = query2.iterate();
 		while (iterator.hasNext()) {
 
 			Object[] result = (Object[]) iterator.next();
 
-		
-
-			Libro li = new Libro();
-			li = (Libro) result[1];
+			Libro li = (Libro) result[1];
 			Ejemplar ej = (Ejemplar) result[2];
 			DepositoLegal dl = (DepositoLegal) result[3];
 			Autor au = (Autor) result[4];
-
-//			System.out.println(dl.getDepositoLegal());
 
 			Datos datos = new Datos(ej, li, au, dl);
 			listaDatos.add(datos);
@@ -108,7 +100,6 @@ public class DatosController {
 
 	}
 
-	
 	private void FXMLloads() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/aed/view/DatosView.fxml"));
