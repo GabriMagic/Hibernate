@@ -6,9 +6,11 @@ import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import aed.model.Libro;
+import aed.model.LibrosAutores;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +20,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -55,6 +58,12 @@ public class LibroController {
 	private MenuItem delLibros;
 
 	@FXML
+	private MenuItem mostrarAutores;
+
+	@FXML
+	private MenuItem addAutor;
+
+	@FXML
 	private TextField nombreText;
 
 	@FXML
@@ -68,6 +77,9 @@ public class LibroController {
 
 	@FXML
 	private GridPane insertView;
+
+	@FXML
+	private ListView<LibrosAutores> listaAutores;
 
 	private Session session;
 	private Stage stage;
@@ -91,14 +103,14 @@ public class LibroController {
 
 		isbnColumn.setOnEditCommit(e -> updateIsbnLibro(e));
 		nombreColumn.setOnEditCommit(e -> updateNombre(e));
-		
+
 		stage = new Stage();
 		stage.getIcons().add(new Image(getClass().getResource("/resources/db.png").toExternalForm()));
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setScene(new Scene(new VBox()));
 
 		cargarLibros();
-		
+
 		delLibros.disableProperty().bind(librosTable.getSelectionModel().selectedItemProperty().isNull());
 
 	}
@@ -122,6 +134,25 @@ public class LibroController {
 			session.getTransaction().commit();
 			cargarLibros();
 		}
+	}
+
+	@FXML
+	void onAddAutor(ActionEvent event) {
+
+	}
+
+	@FXML
+	void onMostrar(ActionEvent event) {
+
+		Query query = session.createQuery("FROM LibrosAutores la "
+				+ "INNER JOIN la.codLibro "
+				+ "WHERE codLibro = ?").setInteger(0,
+				librosTable.getSelectionModel().getSelectedItem().getCodLibro());
+
+		// listaAutores.setItems(FXCollections.observableArrayList();
+		stage.setTitle("Libro: " + librosTable.getSelectionModel().getSelectedItem());
+		stage.getScene().setRoot(listaAutores);
+		stage.show();
 	}
 
 	@FXML
@@ -195,6 +226,10 @@ public class LibroController {
 			FXMLLoader loaderInsert = new FXMLLoader(getClass().getResource("/aed/view/InsertLibroView.fxml"));
 			loaderInsert.setController(this);
 			insertView = loaderInsert.load();
+
+			FXMLLoader loaderAutores = new FXMLLoader(getClass().getResource("/aed/view/ListaAutoresView.fxml"));
+			loaderAutores.setController(this);
+			listaAutores = loaderAutores.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

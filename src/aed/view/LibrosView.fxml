@@ -17,6 +17,8 @@
         <items>
           <MenuItem fx:id="addLibro" mnemonicParsing="false" onAction="#onAddLibro" text="Añadir Libro" />
             <MenuItem fx:id="delLibros" mnemonicParsing="false" onAction="#onDelLibros" text="Eliminar libro(s)" />
+            <MenuItem fx:id="mostrarAutores" mnemonicParsing="false" onAction="#onMostrar" text="Mostrar Autores" />
+            <MenuItem fx:id="addAutor" mnemonicParsing="false" onAction="#onAddAutor" text="Añadir Autor" />
         </items>
       </ContextMenu>
    </contextMenu>
