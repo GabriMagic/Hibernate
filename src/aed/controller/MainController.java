@@ -109,7 +109,6 @@ public class MainController implements Initializable {
 		datosController = new DatosController(session);
 		librosAutoresController = new LibrosAutoresController(session);
 		depositoLegalController = new DepositoLegalController(session);
-		
 
 		librosTab.setContent(librosController.getLibrosTable());
 		autoresTab.setContent(autorController.getAutoresTable());
@@ -117,14 +116,15 @@ public class MainController implements Initializable {
 		datosTab.setContent(datosController.getLibrosTable());
 		librosAutoresTab.setContent(librosAutoresController.getLibrosAutoresTable());
 		depositoLegalTab.setContent(depositoLegalController.getDepositoLegalTable());
-		
+
 		librosController.getLibrosTable().itemsProperty().addListener(e -> {
 			ejemplaresController.cargarEjemplares();
 			datosController.cargarTodos();
 			librosAutoresController.cargarLibrosAutores();
 			depositoLegalController.cargarDepositoLegal();
 		});
-		
+
+		ejemplaresController.getEjemplarTable().itemsProperty().addListener(e -> datosController.cargarTodos());
 
 	}
 

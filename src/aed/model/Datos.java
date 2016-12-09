@@ -21,7 +21,7 @@ public class Datos {
 		} catch (NullPointerException e1) {
 			importe = 0.0;
 		}
-		
+
 		try {
 			codEjemplar = ej.getCodEjemplar();
 		} catch (NullPointerException e1) {
@@ -34,12 +34,21 @@ public class Datos {
 			autor = "";
 		}
 
-		try {
-			depositoLegal = dl.getDepositoLegal();
-		} catch (NullPointerException e) {
-			depositoLegal = "";
-		}
+//		if (dl.getCodLibroDeposito() == null) {
+//			System.out.println("NULL");
+//		} else {
+//			System.out.println("NP");		
+//			System.out.println(dl.getDepositoLegal());
+//		}
 
+		 try {
+		 depositoLegal = dl.getDepositoLegal();
+		 } catch (NullPointerException e) {
+		 depositoLegal = "";
+		 }
+
+//		System.out.println("Libro: " + getNombreLibro() + ", Ejemplar: " + getCodEjemplar() + ", Deposito: "+ getDepositoLegal()
+//				+ ", Autor: " + getAutor());
 	}
 
 	public int getCodLibro() {

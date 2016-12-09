@@ -107,6 +107,7 @@ public class AutorController {
 
 	@FXML
 	void onAddAutor(ActionEvent event) {
+		codigoText.requestFocus();
 		stage.getScene().setRoot(insertView);
 		stage.show();
 	}

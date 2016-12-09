@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,7 +12,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import aed.model.Autor;
-import aed.model.HibernateUtil;
+import aed.model.DepositoLegal;
 import aed.model.Libro;
 import aed.model.LibrosAutores;
 import javafx.collections.FXCollections;
@@ -26,6 +25,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
@@ -93,17 +93,19 @@ public class LibroController {
 	private GridPane addLibroAutor;
 
 	@FXML
-	private ComboBox<Libro> librosCombo;
-
-	@FXML
 	private ComboBox<Autor> autoresCombo;
 
-    @FXML
-    private Button confirmLibroAutorButton;
+	@FXML
+	private Button confirmLibroAutorButton;
 
-    @FXML
-    private Button cancelLibroAutorButton;
+	@FXML
+	private Button cancelLibroAutorButton;
 
+	@FXML
+	private CheckBox depositoCheck;
+
+	@FXML
+	private TextField depositoText;
 
 	private Session session;
 	private Stage stage;
@@ -137,7 +139,9 @@ public class LibroController {
 		cargarLibros();
 
 		delLibros.disableProperty().bind(librosTable.getSelectionModel().selectedItemProperty().isNull());
-
+		depositoText.disableProperty().bind(depositoCheck.selectedProperty().not());
+		addAutor.disableProperty().bind(librosTable.getSelectionModel().selectedItemProperty().isNull());
+		mostrarAutores.disableProperty().bind(librosTable.getSelectionModel().selectedItemProperty().isNull());
 	}
 
 	private void updateNombre(CellEditEvent<Libro, String> e) {
@@ -173,25 +177,25 @@ public class LibroController {
 	}
 
 	@FXML
-    void onCancel(ActionEvent event) {
-		librosCombo.setValue(null);
+	void onCancel(ActionEvent event) {
 		autoresCombo.setValue(null);
 		stage.close();
-    }
+	}
 
-    @FXML
-    void onLibroAutorConfirm(ActionEvent event) {
+	@FXML
+	void onLibroAutorConfirm(ActionEvent event) {
 
-    	try {
+		try {
 			session.beginTransaction();
-			
+
 			LibrosAutores la = new LibrosAutores();
 			la.setCodAutor(autoresCombo.getValue());
-			la.setCodLibro(librosCombo.getValue());
-			
+			la.setCodLibro(librosTable.getSelectionModel().getSelectedItem());
+
 			session.save(la);
 			session.getTransaction().commit();
 			stage.close();
+			autoresCombo.setValue(null);
 		} catch (NonUniqueObjectException e) {
 			messageAlert.setAlertType(AlertType.ERROR);
 			messageAlert.setTitle("Libro - Autor");
@@ -200,17 +204,15 @@ public class LibroController {
 			messageAlert.show();
 			session.getTransaction().rollback();
 		}
-    	
-    	
-    }
-	
+
+	}
+
 	@SuppressWarnings("unchecked")
 	@FXML
 	void onAddAutor(ActionEvent event) {
-		
-		librosCombo.setItems(FXCollections.observableArrayList(session.createQuery("FROM Libro").list()));
+
 		autoresCombo.setItems(FXCollections.observableArrayList(session.createQuery("FROM Autor").list()));
-		
+
 		stage.getScene().setRoot(addLibroAutor);
 		stage.setTitle("Añadir Autor");
 		stage.show();
@@ -220,10 +222,10 @@ public class LibroController {
 	void onMostrar(ActionEvent event) {
 
 		autores = FXCollections.observableArrayList();
+		autores.removeAll(autores);
 
-		session = HibernateUtil.getSessionFactory().openSession();
 		Query query = session
-				.createQuery("FROM LibrosAutores la " + "INNER JOIN la.codAutor " + "WHERE la.codLibro = ?")
+				.createQuery("FROM LibrosAutores la " + "INNER JOIN la.codAutor au " + "WHERE la.codLibro = ? ")
 				.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro());
 
 		Iterator<?> iterator = query.iterate();
@@ -231,8 +233,6 @@ public class LibroController {
 			Object[] result = (Object[]) iterator.next();
 
 			Autor au = (Autor) result[1];
-
-			System.out.println(au);
 
 			autores.add(au);
 		}
@@ -246,16 +246,24 @@ public class LibroController {
 	@FXML
 	void onConfirmAdd(ActionEvent event) {
 
+		session.beginTransaction();
 		Matcher mat = pattern.matcher(isbnText.getText());
 		if (mat.matches()) {
 			Libro l1 = new Libro();
 			l1.setNombreLibro(nombreText.getText());
 			l1.setISBN(isbnText.getText());
 			l1.setFechaIntro(Date.valueOf(LocalDate.now()));
-
-			session.beginTransaction();
 			session.save(l1);
 			session.getTransaction().commit();
+
+			if (depositoCheck.isSelected()) {
+				DepositoLegal dl = new DepositoLegal();
+				dl.setCodLibroDeposito(l1);
+				dl.setDepositoLegal(depositoText.getText());
+				session.beginTransaction();
+				session.save(dl);
+				session.getTransaction().commit();
+			}
 
 			stage.close();
 			nombreText.setText("");
@@ -295,27 +303,34 @@ public class LibroController {
 			session.getTransaction().commit();
 			cargarLibros();
 		} catch (Exception e) {
-			try {
-				messageAlert.setAlertType(AlertType.ERROR);
-				messageAlert.setTitle("Eliminar Libro");
-				messageAlert.setHeaderText("Error al eliminar el libro. Tiene ejemplares.");
-				messageAlert.setContentText("¿Desea eliminar todos sus ejemplares?");
-				if (messageAlert.showAndWait().get() == ButtonType.OK) {
-					session.createQuery("DELETE FROM Ejemplar WHERE codLibro = ?")
-							.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro())
-							.executeUpdate();
-					session.getTransaction().commit();
+			messageAlert.setAlertType(AlertType.CONFIRMATION);
+			messageAlert.setTitle("Eliminar Libro");
+			messageAlert.setHeaderText("Error al eliminar el libro. Tiene ejemplares.");
+			messageAlert.setContentText("¿Desea eliminar todos sus ejemplares?");
+			if (messageAlert.showAndWait().get() == ButtonType.OK) {
 
-					session.beginTransaction();
-					session.createQuery("DELETE FROM Libro WHERE codLibro = ?")
-							.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro())
-							.executeUpdate();
-					session.getTransaction().commit();
-					cargarLibros();
-				}
-			} catch (NoSuchElementException e1) {
+				session.createQuery("DELETE FROM Ejemplar WHERE codLibro = ?")
+						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+				session.getTransaction().commit();
+
+				session.beginTransaction();
+				session.createQuery("DELETE FROM DepositoLegal WHERE codLibroDeposito = ?")
+						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+				session.getTransaction().commit();
+				
+				session.beginTransaction();
+				session.createQuery("DELETE FROM LibrosAutores WHERE codLibro = ?")
+						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+				session.getTransaction().commit();
+
+				session.beginTransaction();
+				session.createQuery("DELETE FROM Libro WHERE codLibro = ?")
+						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+				session.getTransaction().commit();
+				
 			}
-
+		} finally {
+			cargarLibros();
 		}
 
 	}

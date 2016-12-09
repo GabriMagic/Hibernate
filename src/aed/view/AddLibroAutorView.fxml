@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -9,9 +13,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="addLibroAutor" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:id="addLibroAutor" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
    </rowConstraints>
@@ -20,11 +23,9 @@
       <ColumnConstraints maxWidth="148.0" minWidth="10.0" prefWidth="148.0" />
    </columnConstraints>
    <children>
-      <Label text="Libro:" />
-      <Label text="Autor:" GridPane.rowIndex="1" />
-      <ComboBox fx:id="librosCombo" prefWidth="150.0" promptText="Seleccione Libro" GridPane.columnIndex="1" />
-      <ComboBox fx:id="autoresCombo" prefWidth="150.0" promptText="Seleccion Autor" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <Label text="Autor:" />
+      <ComboBox fx:id="autoresCombo" prefWidth="150.0" promptText="Seleccion Autor" GridPane.columnIndex="1" />
+      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
             <Button fx:id="confirmLibroAutorButton" defaultButton="true" mnemonicParsing="false" onAction="#onLibroAutorConfirm" text="Añadir" />
             <Button fx:id="cancelLibroAutorButton" cancelButton="true" mnemonicParsing="false" onAction="#onCancel" text="Cancelar" />
