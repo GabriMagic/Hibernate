@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,10 +35,10 @@ public class Libro implements Serializable {
 	@Column(columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date fechaIntro;
 
-	@OneToMany(cascade=CascadeType.ALL,mappedBy = "codLibro")
+	@OneToMany(cascade = javax.persistence.CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "codLibro")
 	private List<Ejemplar> ejemplares = new ArrayList<Ejemplar>();
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade = { CascadeType.ALL })
 	@PrimaryKeyJoinColumn
 	private DepositoLegal codLibroDeposito;
 

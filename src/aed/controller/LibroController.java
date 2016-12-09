@@ -196,6 +196,7 @@ public class LibroController {
 			session.getTransaction().commit();
 			stage.close();
 			autoresCombo.setValue(null);
+			cargarLibros();
 		} catch (NonUniqueObjectException e) {
 			messageAlert.setAlertType(AlertType.ERROR);
 			messageAlert.setTitle("Libro - Autor");
@@ -249,9 +250,9 @@ public class LibroController {
 	@FXML
 	void onConfirmAdd(ActionEvent event) {
 
-		session.beginTransaction();
 		Matcher mat = pattern.matcher(isbnText.getText());
 		if (mat.matches()) {
+			session.beginTransaction();
 			Libro l1 = new Libro();
 			l1.setNombreLibro(nombreText.getText());
 			l1.setISBN(isbnText.getText());
@@ -306,36 +307,43 @@ public class LibroController {
 			session.getTransaction().commit();
 			cargarLibros();
 		} catch (Exception e) {
-			
+
 			messageAlert.setAlertType(AlertType.CONFIRMATION);
 			messageAlert.setTitle("Eliminar Libro");
 			messageAlert.setHeaderText("Error al eliminar el libro. Tiene ejemplares.");
 			messageAlert.setContentText("¿Desea eliminar todos sus ejemplares?");
-			
+
 			if (messageAlert.showAndWait().get() == ButtonType.OK) {
 
-//				session.beginTransaction();
-//				session.createQuery("DELETE FROM Ejemplar WHERE codLibro = ?")
-//						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
-//				session.getTransaction().commit();
-//
-//				session.beginTransaction();
-//				session.createQuery("DELETE FROM DepositoLegal WHERE codLibroDeposito = ?")
-//						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
-//				session.getTransaction().commit();
-//
-//				session.beginTransaction();
-//				session.createQuery("DELETE FROM LibrosAutores WHERE codLibro = ?").setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
-//				session.getTransaction().commit();
+				try {
+					// session.beginTransaction();
+					// session.createQuery("DELETE FROM Ejemplar WHERE codLibro
+					// = ?")
+					// .setInteger(0,
+					// librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+					// session.getTransaction().commit();
+					//
+					// session.beginTransaction();
+					// session.createQuery("DELETE FROM DepositoLegal WHERE
+					// codLibroDeposito = ?")
+					// .setInteger(0,
+					// librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+					// session.getTransaction().commit();
+					//
+					// session.beginTransaction();
+					// session.createQuery("DELETE FROM LibrosAutores WHERE
+					// codLibro = ?").setInteger(0,
+					// librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+					// session.getTransaction().commit();
 
-				session.createQuery("DELETE FROM Libro WHERE codLibro = ?")
-						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
-				session.getTransaction().commit();
+					session.delete(librosTable.getSelectionModel().getSelectedItem());
+					session.getTransaction().commit();
+				} catch (Exception e1) {
+					System.out.println(e1.getLocalizedMessage());
+				}
 			}
-		} finally {
-			cargarLibros();
 		}
-
+		cargarLibros();
 	}
 
 	@SuppressWarnings("unchecked")

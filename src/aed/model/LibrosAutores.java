@@ -2,12 +2,14 @@ package aed.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "librosautores")
@@ -15,12 +17,13 @@ import javax.persistence.Table;
 public class LibrosAutores implements Serializable {
 
 	@Id
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "codLibro")
 	private Libro codLibro;
 
 	@Id
 	@ManyToOne
+	@Cascade({ CascadeType.SAVE_UPDATE })
 	@JoinColumn(name = "codAutor")
 	private Autor codAutor;
 

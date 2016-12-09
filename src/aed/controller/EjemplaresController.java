@@ -85,7 +85,7 @@ public class EjemplaresController {
 		stage.getIcons().add(new Image(getClass().getResource("/resources/db.png").toExternalForm()));
 		stage.setTitle("Insertar Ejemplar");
 		stage.initModality(Modality.APPLICATION_MODAL);
-		
+
 		message = new Alert(AlertType.ERROR);
 
 		FXMLloads();
@@ -104,7 +104,7 @@ public class EjemplaresController {
 		tipoMonedaColumn.setOnEditCommit(e -> updateTipoMoneda(e));
 
 		cargarEjemplares();
-		
+
 		delete.disableProperty().bind(ejemplarTable.getSelectionModel().selectedItemProperty().isNull());
 	}
 
@@ -189,15 +189,15 @@ public class EjemplaresController {
 	@FXML
 	void onDelete(ActionEvent event) {
 		session.beginTransaction();
-		session.createQuery("DELETE FROM Ejemplar WHERE codEjemplar = ?")
-				.setInteger(0, ejemplarTable.getSelectionModel().getSelectedItem().getCodEjemplar()).executeUpdate();
+		session.delete(ejemplarTable.getSelectionModel().getSelectedItem());
 		session.getTransaction().commit();
 		cargarEjemplares();
 	}
 
 	@SuppressWarnings("unchecked")
 	public void cargarEjemplares() {
-		ejemplarTable.getItems().removeAll(FXCollections.observableArrayList(session.createQuery("FROM Ejemplar").list()));
+		ejemplarTable.getItems()
+				.removeAll(FXCollections.observableArrayList(session.createQuery("FROM Ejemplar").list()));
 		ejemplarTable.setItems(FXCollections.observableArrayList(session.createQuery("FROM Ejemplar").list()));
 	}
 
