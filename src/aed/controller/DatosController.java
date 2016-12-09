@@ -86,8 +86,11 @@ public class DatosController {
 
 		listaDatos.removeAll(listaDatos);
 
-		Query query2 = session.createQuery("FROM LibrosAutores la " + "RIGHT JOIN la.codLibro li "
-				+ "LEFT JOIN li.codLibroDeposito dl" + "LEFT JOIN li.ejemplares ej " + "LEFT JOIN la.codAutor au ");
+		Query query2 = session.createQuery("FROM LibrosAutores la "
+				+ "RIGHT JOIN la.codLibro li "
+				+ "LEFT JOIN li.codLibroDeposito dl"
+				+ "LEFT JOIN li.ejemplares ej "
+				+ "LEFT JOIN la.codAutor au ");
 
 		Iterator<?> iterator = query2.iterate();
 		while (iterator.hasNext()) {
