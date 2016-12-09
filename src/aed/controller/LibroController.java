@@ -213,6 +213,9 @@ public class LibroController {
 
 		autoresCombo.setItems(FXCollections.observableArrayList(session.createQuery("FROM Autor").list()));
 
+		autoresCombo.getItems().removeAll(session.createQuery("FROM LibrosAutores WHERE codLibro = ? ")
+				.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).list());
+
 		stage.getScene().setRoot(addLibroAutor);
 		stage.setTitle("Añadir Autor");
 		stage.show();
@@ -317,7 +320,7 @@ public class LibroController {
 				session.createQuery("DELETE FROM DepositoLegal WHERE codLibroDeposito = ?")
 						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
 				session.getTransaction().commit();
-				
+
 				session.beginTransaction();
 				session.createQuery("DELETE FROM LibrosAutores WHERE codLibro = ?")
 						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
@@ -327,7 +330,7 @@ public class LibroController {
 				session.createQuery("DELETE FROM Libro WHERE codLibro = ?")
 						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
 				session.getTransaction().commit();
-				
+
 			}
 		} finally {
 			cargarLibros();

@@ -59,7 +59,10 @@ public class MainController implements Initializable {
 			e.printStackTrace();
 		}
 
-		primaryStage.setOnCloseRequest(e -> session.close());
+		primaryStage.setOnCloseRequest(e -> {
+			session.close();
+			System.out.println("Cerrando...");
+		});
 
 		// Libro l1 = new Libro();
 		// l1.setISBN("12-963-6469-X");

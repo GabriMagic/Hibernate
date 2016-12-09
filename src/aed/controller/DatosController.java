@@ -42,6 +42,9 @@ public class DatosController {
 	private TableColumn<Datos, Integer> ejemplarColumn;
 
 	@FXML
+	private TableColumn<Datos, Double> importeColumn;
+
+	@FXML
 	private TableColumn<Datos, String> autorColumn;
 
 	@FXML
@@ -64,6 +67,7 @@ public class DatosController {
 		isbnColumn.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
 		fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fechaIntro"));
 		ejemplarColumn.setCellValueFactory(new PropertyValueFactory<>("codEjemplar"));
+		importeColumn.setCellValueFactory(new PropertyValueFactory<>("importe"));
 		autorColumn.setCellValueFactory(new PropertyValueFactory<>("autor"));
 		depositoColumn.setCellValueFactory(new PropertyValueFactory<>("depositoLegal"));
 
@@ -82,11 +86,8 @@ public class DatosController {
 
 		listaDatos.removeAll(listaDatos);
 
-		Query query2 = session.createQuery("FROM LibrosAutores la "
-				+ "RIGHT JOIN la.codLibro li "
-				+ "LEFT JOIN li.codLibroDeposito dl"
-				+ "LEFT JOIN li.ejemplares ej "
-				+ "LEFT JOIN la.codAutor au ");
+		Query query2 = session.createQuery("FROM LibrosAutores la " + "RIGHT JOIN la.codLibro li "
+				+ "LEFT JOIN li.codLibroDeposito dl" + "LEFT JOIN li.ejemplares ej " + "LEFT JOIN la.codAutor au ");
 
 		Iterator<?> iterator = query2.iterate();
 		while (iterator.hasNext()) {
@@ -98,8 +99,9 @@ public class DatosController {
 			Ejemplar ej = (Ejemplar) result[3];
 			Autor au = (Autor) result[4];
 
-//			System.out.println("Libro: " + li.getNombreLibro() + ", Ejemplar: " + ej.getCodEjemplar() + ", Deposito: "
-//					+ ", Autor: " + au.getNombreAutor());
+			// System.out.println("Libro: " + li.getNombreLibro() + ", Ejemplar:
+			// " + ej.getCodEjemplar() + ", Deposito: "
+			// + ", Autor: " + au.getNombreAutor());
 
 			Datos datos = new Datos(ej, li, au, dl);
 			listaDatos.add(datos);
