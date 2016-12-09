@@ -15,13 +15,13 @@ public class LibrosAutores implements Serializable {
 
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "codAutor")
-	private Autor codAutor;
+	@JoinColumn(name = "codLibro")
+	private Libro codLibro;
 
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "codLibro")
-	private Libro codLibro;
+	@JoinColumn(name = "codAutor")
+	private Autor codAutor;
 
 	public Autor getCodAutor() {
 		return codAutor;

@@ -8,8 +8,10 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 public class DepositoLegalController {
 
@@ -32,15 +34,27 @@ public class DepositoLegalController {
 
 		libroColumn.setCellValueFactory(new PropertyValueFactory<>("codLibroDeposito"));
 		depositoLegalColumn.setCellValueFactory(new PropertyValueFactory<>("depositoLegal"));
+		depositoLegalColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+		depositoLegalColumn.setOnEditCommit(e -> updateDepositoLegal(e));
 
 		cargarDepositoLegal();
 
 	}
 
+	private void updateDepositoLegal(CellEditEvent<DepositoLegal, String> e) {
+		sesison.beginTransaction();
+		e.getRowValue().setDepositoLegal(e.getNewValue());
+		sesison.save(e.getRowValue());
+		sesison.getTransaction().commit();
+	}
+
 	@SuppressWarnings("unchecked")
 	public void cargarDepositoLegal() {
-		depositoLegalTable.getItems().removeAll(FXCollections.observableArrayList(sesison.createQuery("FROM DepositoLegal").list()));
-		depositoLegalTable.setItems(FXCollections.observableArrayList(sesison.createQuery("FROM DepositoLegal").list()));
+		depositoLegalTable.getItems()
+				.removeAll(FXCollections.observableArrayList(sesison.createQuery("FROM DepositoLegal").list()));
+		depositoLegalTable
+				.setItems(FXCollections.observableArrayList(sesison.createQuery("FROM DepositoLegal").list()));
 	}
 
 	private void FXMLloads() {
@@ -55,5 +69,9 @@ public class DepositoLegalController {
 
 	public TableView<DepositoLegal> getDepositoLegalTable() {
 		return depositoLegalTable;
+	}
+
+	public TableColumn<DepositoLegal, String> getDepositoLegalColumn() {
+		return depositoLegalColumn;
 	}
 }

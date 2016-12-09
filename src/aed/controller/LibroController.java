@@ -299,8 +299,8 @@ public class LibroController {
 	@FXML
 	void onDelLibros(ActionEvent event) {
 
-		session.beginTransaction();
 		try {
+			session.beginTransaction();
 			session.createQuery("DELETE FROM Libro WHERE codLibro = ?")
 					.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
 			session.getTransaction().commit();
@@ -311,7 +311,8 @@ public class LibroController {
 			messageAlert.setHeaderText("Error al eliminar el libro. Tiene ejemplares.");
 			messageAlert.setContentText("¿Desea eliminar todos sus ejemplares?");
 			if (messageAlert.showAndWait().get() == ButtonType.OK) {
-
+				
+				session.beginTransaction();
 				session.createQuery("DELETE FROM Ejemplar WHERE codLibro = ?")
 						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
 				session.getTransaction().commit();

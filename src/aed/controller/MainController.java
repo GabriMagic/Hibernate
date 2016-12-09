@@ -128,7 +128,11 @@ public class MainController implements Initializable {
 		});
 
 		ejemplaresController.getEjemplarTable().itemsProperty().addListener(e -> datosController.cargarTodos());
-
+		depositoLegalController.getDepositoLegalTable().itemsProperty().addListener(e -> {
+			System.out.println("WHAT");
+			datosController.cargarTodos();
+		});
+		
 	}
 
 	public TabPane getView() {
