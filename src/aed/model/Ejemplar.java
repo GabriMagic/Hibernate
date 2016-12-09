@@ -2,6 +2,7 @@ package aed.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +22,7 @@ public class Ejemplar implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int codEjemplar;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name = "codLibro")
 	private Libro codLibro;
 

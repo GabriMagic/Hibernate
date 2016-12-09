@@ -2,6 +2,7 @@ package aed.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 public class LibrosAutores implements Serializable {
 
 	@Id
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "codLibro")
 	private Libro codLibro;
 

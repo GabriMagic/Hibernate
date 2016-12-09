@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,10 +34,10 @@ public class Libro implements Serializable {
 	@Column(columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date fechaIntro;
 
-	@OneToMany(mappedBy = "codLibro")
+	@OneToMany(cascade=CascadeType.ALL,mappedBy = "codLibro")
 	private List<Ejemplar> ejemplares = new ArrayList<Ejemplar>();
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@PrimaryKeyJoinColumn
 	private DepositoLegal codLibroDeposito;
 

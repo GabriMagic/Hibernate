@@ -314,21 +314,20 @@ public class LibroController {
 			
 			if (messageAlert.showAndWait().get() == ButtonType.OK) {
 
-				session.beginTransaction();
-				session.createQuery("DELETE FROM Ejemplar WHERE codLibro = ?")
-						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
-				session.getTransaction().commit();
+//				session.beginTransaction();
+//				session.createQuery("DELETE FROM Ejemplar WHERE codLibro = ?")
+//						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+//				session.getTransaction().commit();
+//
+//				session.beginTransaction();
+//				session.createQuery("DELETE FROM DepositoLegal WHERE codLibroDeposito = ?")
+//						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+//				session.getTransaction().commit();
+//
+//				session.beginTransaction();
+//				session.createQuery("DELETE FROM LibrosAutores WHERE codLibro = ?").setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+//				session.getTransaction().commit();
 
-				session.beginTransaction();
-				session.createQuery("DELETE FROM DepositoLegal WHERE codLibroDeposito = ?")
-						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
-				session.getTransaction().commit();
-
-				session.beginTransaction();
-				session.createQuery("DELETE FROM LibrosAutores WHERE codLibro = ?").setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
-				session.getTransaction().commit();
-
-				session.beginTransaction();
 				session.createQuery("DELETE FROM Libro WHERE codLibro = ?")
 						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
 				session.getTransaction().commit();
