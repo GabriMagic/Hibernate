@@ -306,10 +306,12 @@ public class LibroController {
 			session.getTransaction().commit();
 			cargarLibros();
 		} catch (Exception e) {
+			
 			messageAlert.setAlertType(AlertType.CONFIRMATION);
 			messageAlert.setTitle("Eliminar Libro");
 			messageAlert.setHeaderText("Error al eliminar el libro. Tiene ejemplares.");
 			messageAlert.setContentText("¿Desea eliminar todos sus ejemplares?");
+			
 			if (messageAlert.showAndWait().get() == ButtonType.OK) {
 
 				session.beginTransaction();
@@ -323,8 +325,7 @@ public class LibroController {
 				session.getTransaction().commit();
 
 				session.beginTransaction();
-				session.createQuery("DELETE FROM LibrosAutores WHERE codLibro = ?")
-						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+				session.createQuery("DELETE FROM LibrosAutores WHERE codLibro = ?").setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
 				session.getTransaction().commit();
 
 				session.beginTransaction();
