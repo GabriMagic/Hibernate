@@ -99,10 +99,6 @@ public class DatosController {
 			Ejemplar ej = (Ejemplar) result[3];
 			Autor au = (Autor) result[4];
 
-			// System.out.println("Libro: " + li.getNombreLibro() + ", Ejemplar:
-			// " + ej.getCodEjemplar() + ", Deposito: "
-			// + ", Autor: " + au.getNombreAutor());
-
 			Datos datos = new Datos(ej, li, au, dl);
 			listaDatos.add(datos);
 		}

@@ -34,21 +34,12 @@ public class Datos {
 			autor = "";
 		}
 
-//		if (dl.getCodLibroDeposito() == null) {
-//			System.out.println("NULL");
-//		} else {
-//			System.out.println("NP");		
-//			System.out.println(dl.getDepositoLegal());
-//		}
+		try {
+			depositoLegal = dl.getDepositoLegal();
+		} catch (NullPointerException e) {
+			depositoLegal = "";
+		}
 
-		 try {
-		 depositoLegal = dl.getDepositoLegal();
-		 } catch (NullPointerException e) {
-		 depositoLegal = "";
-		 }
-
-//		System.out.println("Libro: " + getNombreLibro() + ", Ejemplar: " + getCodEjemplar() + ", Deposito: "+ getDepositoLegal()
-//				+ ", Autor: " + getAutor());
 	}
 
 	public int getCodLibro() {

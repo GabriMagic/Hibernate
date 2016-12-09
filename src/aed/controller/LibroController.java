@@ -311,7 +311,7 @@ public class LibroController {
 			messageAlert.setHeaderText("Error al eliminar el libro. Tiene ejemplares.");
 			messageAlert.setContentText("¿Desea eliminar todos sus ejemplares?");
 			if (messageAlert.showAndWait().get() == ButtonType.OK) {
-				
+
 				session.beginTransaction();
 				session.createQuery("DELETE FROM Ejemplar WHERE codLibro = ?")
 						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
@@ -331,7 +331,6 @@ public class LibroController {
 				session.createQuery("DELETE FROM Libro WHERE codLibro = ?")
 						.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
 				session.getTransaction().commit();
-
 			}
 		} finally {
 			cargarLibros();
@@ -341,7 +340,7 @@ public class LibroController {
 
 	@SuppressWarnings("unchecked")
 	public void cargarLibros() {
-		librosTable.setItems(FXCollections.observableArrayList(session.createQuery("from Libro").list()));
+		librosTable.setItems(FXCollections.observableArrayList(session.createQuery("FROM Libro").list()));
 	}
 
 	private void FXMLloads() {
