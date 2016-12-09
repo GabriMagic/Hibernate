@@ -1,7 +1,7 @@
 package aed.controller;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -86,16 +86,16 @@ public class DatosController {
 
 		listaDatos.removeAll(listaDatos);
 
-		Query query2 = session.createQuery("FROM LibrosAutores la "
+		Query query = session.createQuery("FROM LibrosAutores la "
 				+ "RIGHT JOIN la.codLibro li "
-				+ "LEFT JOIN li.codLibroDeposito dl"
+				+ "LEFT JOIN li.codLibroDeposito dl "
 				+ "LEFT JOIN li.ejemplares ej "
 				+ "LEFT JOIN la.codAutor au ");
 
-		Iterator<?> iterator = query2.iterate();
-		while (iterator.hasNext()) {
+		List<?> datosList = query.list();
+		for (int i = 0; i < datosList.size(); i++) {
 
-			Object[] result = (Object[]) iterator.next();
+			Object[] result = (Object[]) datosList.get(i);
 
 			Libro li = (Libro) result[1];
 			DepositoLegal dl = (DepositoLegal) result[2];
@@ -104,6 +104,7 @@ public class DatosController {
 
 			Datos datos = new Datos(ej, li, au, dl);
 			listaDatos.add(datos);
+
 		}
 		librosTable.setItems(listaDatos);
 

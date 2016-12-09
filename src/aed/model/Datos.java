@@ -24,7 +24,7 @@ public class Datos {
 
 		try {
 			codEjemplar = ej.getCodEjemplar();
-		} catch (NullPointerException e1) {
+		} catch (NullPointerException e2) {
 			codEjemplar = 0;
 		}
 
