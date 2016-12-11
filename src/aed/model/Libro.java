@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,10 +34,18 @@ public class Libro implements Serializable {
 	@Column(columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date fechaIntro;
 
-	@OneToMany(cascade = javax.persistence.CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "codLibro")
+	public void setEjemplares(List<Ejemplar> ejemplares) {
+		this.ejemplares = ejemplares;
+	}
+
+	public void setCodLibroDeposito(DepositoLegal codLibroDeposito) {
+		this.codLibroDeposito = codLibroDeposito;
+	}
+
+	@OneToMany(cascade = javax.persistence.CascadeType.ALL, fetch = FetchType.EAGER,mappedBy="codLibro") 
 	private List<Ejemplar> ejemplares = new ArrayList<Ejemplar>();
 
-	@OneToOne(cascade = { CascadeType.ALL })
+	@OneToOne(cascade={javax.persistence.CascadeType.ALL})
 	@PrimaryKeyJoinColumn
 	private DepositoLegal codLibroDeposito;
 
@@ -48,6 +55,14 @@ public class Libro implements Serializable {
 
 	public void setCodLibro(int codLibro) {
 		this.codLibro = codLibro;
+	}
+
+	public List<Ejemplar> getEjemplares() {
+		return ejemplares;
+	}
+
+	public DepositoLegal getCodLibroDeposito() {
+		return codLibroDeposito;
 	}
 
 	public String getNombreLibro() {

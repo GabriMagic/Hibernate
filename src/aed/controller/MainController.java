@@ -64,10 +64,19 @@ public class MainController implements Initializable {
 			System.out.println("Cerrando...");
 		});
 
-		// Libro l1 = new Libro();
-		// l1.setISBN("12-963-6469-X");
-		// l1.setFechaIntro(Date.valueOf(LocalDate.now()));
-		// l1.setNombreLibro("Memorias de Idhún");
+//		Libro l1 = new Libro();
+//		l1.setISBN("12-963-6469-X");
+//		l1.setFechaIntro(Date.valueOf(LocalDate.now()));
+//		l1.setNombreLibro("Memorias de Idhún");
+//		session.save(l1);
+//
+//		DepositoLegal dl = new DepositoLegal();
+//		dl.setDepositoLegal("ASD");
+//		dl.setCodLibroDeposito(l1);
+//		session.save(dl);
+//
+//		l1.setCodLibroDeposito(dl);
+
 		//
 		// Libro l2 = new Libro();
 		// l2.setISBN("12-963-6429-X");
@@ -95,7 +104,7 @@ public class MainController implements Initializable {
 		// la1.setCodAutor(a1);
 		// la1.setCodLibro(l1);
 		//
-		// session.save(l1);
+
 		// session.save(l2);
 		// session.save(a1);
 		// // session.save(a2);

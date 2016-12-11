@@ -147,8 +147,7 @@ public class LibroController {
 	private void updateNombre(CellEditEvent<Libro, String> e) {
 		e.getRowValue().setNombreLibro(e.getNewValue());
 		session.beginTransaction();
-		session.createQuery("UPDATE Libro SET nombreLibro=? WHERE codLibro=?").setString(0, e.getNewValue())
-				.setInteger(1, e.getRowValue().getCodLibro()).executeUpdate();
+		session.update(e.getRowValue());
 		session.getTransaction().commit();
 		cargarLibros();
 	}
@@ -159,9 +158,7 @@ public class LibroController {
 			if (mat.matches()) {
 				e.getRowValue().setISBN(e.getNewValue());
 				session.beginTransaction();
-				session.createQuery("UPDATE Libro SET ISBN=:isbn WHERE codLibro=:libro")
-						.setString("isbn", e.getNewValue()).setInteger("libro", e.getRowValue().getCodLibro())
-						.executeUpdate();
+				session.update(e.getRowValue());
 				session.getTransaction().commit();
 				cargarLibros();
 			}

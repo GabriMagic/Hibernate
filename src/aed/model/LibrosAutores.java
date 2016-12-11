@@ -8,9 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 @Entity
 @Table(name = "librosautores")
 @SuppressWarnings("serial")
@@ -23,7 +20,6 @@ public class LibrosAutores implements Serializable {
 
 	@Id
 	@ManyToOne
-	@Cascade({ CascadeType.SAVE_UPDATE })
 	@JoinColumn(name = "codAutor")
 	private Autor codAutor;
 
