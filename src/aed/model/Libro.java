@@ -42,10 +42,10 @@ public class Libro implements Serializable {
 		this.codLibroDeposito = codLibroDeposito;
 	}
 
-	@OneToMany(cascade = javax.persistence.CascadeType.ALL, fetch = FetchType.EAGER,mappedBy="codLibro") 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "codLibro")
 	private List<Ejemplar> ejemplares = new ArrayList<Ejemplar>();
 
-	@OneToOne(cascade={javax.persistence.CascadeType.ALL})
+	@OneToOne(cascade = { javax.persistence.CascadeType.ALL })
 	@PrimaryKeyJoinColumn
 	private DepositoLegal codLibroDeposito;
 
