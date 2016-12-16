@@ -62,55 +62,12 @@ public class MainController implements Initializable {
 		primaryStage.setOnCloseRequest(e -> {
 			session.close();
 			System.out.println("Cerrando...");
+			try {
+				Runtime.getRuntime().exec("java -jar src/aed/app/Hibernateapp.jar");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		});
-
-//		Libro l1 = new Libro();
-//		l1.setISBN("12-963-6469-X");
-//		l1.setFechaIntro(Date.valueOf(LocalDate.now()));
-//		l1.setNombreLibro("Memorias de Idhún");
-//		session.save(l1);
-//
-//		DepositoLegal dl = new DepositoLegal();
-//		dl.setDepositoLegal("ASD");
-//		dl.setCodLibroDeposito(l1);
-//		session.save(dl);
-//
-//		l1.setCodLibroDeposito(dl);
-
-		//
-		// Libro l2 = new Libro();
-		// l2.setISBN("12-963-6429-X");
-		// l2.setFechaIntro(Date.valueOf(LocalDate.now()));
-		// l2.setNombreLibro("Juego de Tronos");
-		//
-		// Autor a1 = new Autor();
-		// a1.setCodAutor("GAB");
-		// a1.setNombreAutor("GabriMagic");
-		//
-		//// Autor a2 = new Autor();
-		//// a1.setCodAutor("XIL");
-		//// a1.setNombreAutor("Xilerth");
-		//
-		// Ejemplar ej1 = new Ejemplar();
-		// ej1.setCodLibro(l1);
-		// ej1.setImporte(95.30);
-		// ej1.setTipoMoneda("EUROS");
-		//
-		// DepositoLegal dl1 = new DepositoLegal();
-		// dl1.setCodLibroDeposito(l1);
-		// dl1.setDepositoLegal("Que va aqui?");
-		//
-		// LibrosAutores la1 = new LibrosAutores();
-		// la1.setCodAutor(a1);
-		// la1.setCodLibro(l1);
-		//
-
-		// session.save(l2);
-		// session.save(a1);
-		// // session.save(a2);
-		// session.save(ej1);
-		// session.save(dl1);
-		// session.save(la1);
 
 		session.getTransaction().commit();
 
@@ -136,9 +93,13 @@ public class MainController implements Initializable {
 			depositoLegalController.cargarDepositoLegal();
 		});
 
+		autorController.getAutoresTable().itemsProperty().addListener(e -> {
+			datosController.cargarTodos();
+			librosAutoresController.cargarLibrosAutores();
+		});
+
 		ejemplaresController.getEjemplarTable().itemsProperty().addListener(e -> datosController.cargarTodos());
 		depositoLegalController.getDepositoLegalTable().itemsProperty().addListener(e -> datosController.cargarTodos());
-
 	}
 
 	public TabPane getView() {

@@ -86,8 +86,11 @@ public class DatosController {
 
 		listaDatos.removeAll(listaDatos);
 
-		Query query = session.createQuery("FROM LibrosAutores la " + "RIGHT JOIN la.codLibro li "
-				+ "LEFT JOIN li.codLibroDeposito dl " + "LEFT JOIN li.ejemplares ej " + "LEFT JOIN la.codAutor au ");
+		Query query = session.createQuery("FROM LibrosAutores la "
+				+ "RIGHT JOIN la.codLibro li "
+				+ "LEFT JOIN li.ejemplares ej "
+				+ "LEFT JOIN li.codLibroDeposito dl "
+				+ "LEFT JOIN la.codAutor au ");
 
 		Iterator<?> datosList = query.iterate();
 
@@ -96,8 +99,8 @@ public class DatosController {
 			Object[] result = (Object[]) datosList.next();
 			
 			Libro li = (Libro) result[1];
-			DepositoLegal dl = (DepositoLegal) result[2];
-			Ejemplar ej = (Ejemplar) result[3];
+			Ejemplar ej = (Ejemplar) result[2];
+			DepositoLegal dl = (DepositoLegal) result[3];
 			Autor au = (Autor) result[4];
 
 			Datos datos = new Datos(ej, li, au, dl);
