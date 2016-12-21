@@ -1,12 +1,16 @@
 package aed.controller;
 
 import java.io.IOException;
+
 import org.hibernate.Session;
+
 import aed.model.DepositoLegal;
 import aed.model.Libro;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -24,11 +28,11 @@ public class DepositoLegalController {
 	@FXML
 	private TableColumn<DepositoLegal, String> depositoLegalColumn;
 
-	private Session sesison;
+	private Session session;
 
 	public DepositoLegalController(Session session) {
 
-		this.sesison = session;
+		this.session = session;
 
 		FXMLloads();
 
@@ -43,18 +47,18 @@ public class DepositoLegalController {
 	}
 
 	private void updateDepositoLegal(CellEditEvent<DepositoLegal, String> e) {
-		sesison.beginTransaction();
+		session.beginTransaction();
 		e.getRowValue().setDepositoLegal(e.getNewValue());
-		sesison.save(e.getRowValue());
-		sesison.getTransaction().commit();
+		session.save(e.getRowValue());
+		session.getTransaction().commit();
 	}
 
 	@SuppressWarnings("unchecked")
 	public void cargarDepositoLegal() {
 		depositoLegalTable.getItems()
-				.removeAll(FXCollections.observableArrayList(sesison.createQuery("FROM DepositoLegal").list()));
+				.removeAll(FXCollections.observableArrayList(session.createQuery("FROM DepositoLegal").list()));
 		depositoLegalTable
-				.setItems(FXCollections.observableArrayList(sesison.createQuery("FROM DepositoLegal").list()));
+				.setItems(FXCollections.observableArrayList(session.createQuery("FROM DepositoLegal").list()));
 	}
 
 	private void FXMLloads() {

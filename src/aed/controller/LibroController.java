@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Iterator;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -163,8 +162,8 @@ public class LibroController {
 				session.update(e.getRowValue());
 				session.getTransaction().commit();
 				cargarLibros();
-			}else {
-				
+			} else {
+
 			}
 		} catch (Exception e1) {
 			messageAlert.setAlertType(AlertType.ERROR);
@@ -222,7 +221,6 @@ public class LibroController {
 		stage.show();
 	}
 
-	@SuppressWarnings("unchecked")
 	@FXML
 	void onMostrar(ActionEvent event) {
 
@@ -233,12 +231,11 @@ public class LibroController {
 				.createQuery("FROM LibrosAutores la " + "INNER JOIN la.codAutor au " + "WHERE la.codLibro = ? ")
 				.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro());
 
-		
 		Iterator<?> iterator = query.iterate();
 		while (iterator.hasNext()) {
 			Object[] result = (Object[]) iterator.next();
 			autores.add((Autor) result[1]);
-		} 
+		}
 
 		listaAutores.setItems(FXCollections.observableArrayList(autores));
 		stage.setTitle("Libro: " + librosTable.getSelectionModel().getSelectedItem());
