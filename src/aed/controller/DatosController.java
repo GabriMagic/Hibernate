@@ -50,9 +50,6 @@ public class DatosController {
 	@FXML
 	private TableColumn<Datos, DepositoLegal> depositoColumn;
 
-	@FXML
-	private MenuItem actualizarMenu;
-
 	private Session session;
 	private ObservableList<Datos> listaDatos;
 
@@ -76,28 +73,19 @@ public class DatosController {
 		cargarTodos();
 	}
 
-	@FXML
-	void onActualizar(ActionEvent event) {
-		librosTable.getItems().removeAll(listaDatos);
-		cargarTodos();
-	}
-
 	public void cargarTodos() {
 
 		listaDatos.removeAll(listaDatos);
 
-		Query query = session.createQuery("FROM LibrosAutores la "
-				+ "RIGHT JOIN la.codLibro li "
-				+ "LEFT JOIN li.ejemplares ej "
-				+ "LEFT JOIN li.codLibroDeposito dl "
-				+ "LEFT JOIN la.codAutor au ");
+		Query query = session.createQuery("FROM LibrosAutores la " + "RIGHT JOIN la.codLibro li "
+				+ "LEFT JOIN li.ejemplares ej " + "LEFT JOIN li.codLibroDeposito dl " + "LEFT JOIN la.codAutor au ");
 
 		Iterator<?> datosList = query.iterate();
 
 		while (datosList.hasNext()) {
-			
+
 			Object[] result = (Object[]) datosList.next();
-			
+
 			Libro li = (Libro) result[1];
 			Ejemplar ej = (Ejemplar) result[2];
 			DepositoLegal dl = (DepositoLegal) result[3];

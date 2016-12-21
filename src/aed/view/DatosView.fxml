@@ -18,11 +18,4 @@
       <TableColumn fx:id="autorColumn" prefWidth="105.0" text="Autor" />
       <TableColumn fx:id="depositoColumn" prefWidth="130.0" text="Depósito Legal" />
    </columns>
-   <contextMenu>
-      <ContextMenu>
-        <items>
-          <MenuItem fx:id="actualizarMenu" mnemonicParsing="false" onAction="#onActualizar" text="Actualizar" />
-        </items>
-      </ContextMenu>
-   </contextMenu>
 </TableView>
