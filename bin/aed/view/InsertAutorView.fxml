@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane fx:id="insertView" hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+   </rowConstraints>
+   <columnConstraints>
+      <ColumnConstraints maxWidth="95.0" minWidth="10.0" prefWidth="78.0" />
+      <ColumnConstraints maxWidth="122.0" minWidth="10.0" prefWidth="122.0" />
+   </columnConstraints>
+   <children>
+      <Label text="Código autor:" />
+      <Label text="Nombre autor:" GridPane.rowIndex="1" />
+      <TextField fx:id="codigoText" promptText="(XXXX)" GridPane.columnIndex="1" />
+      <TextField fx:id="nombreText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <children>
+            <Button fx:id="confirmButton" defaultButton="true" mnemonicParsing="false" onAction="#onConfirm" text="Añadir" />
+            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#onCancel" text="Cancelar" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</GridPane>

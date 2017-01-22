@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="librosTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <columns>
+      <TableColumn fx:id="codigoColumn" prefWidth="59.0" text="codLibro" />
+      <TableColumn fx:id="nombreColumn" prefWidth="121.0" text="Nombre" />
+      <TableColumn fx:id="isbnColumn" prefWidth="93.0" text="ISBN" />
+      <TableColumn fx:id="fechaColumn" prefWidth="73.0" text="Fecha" />
+      <TableColumn fx:id="ejemplarColumn" prefWidth="56.0" text="Ejemplar" />
+      <TableColumn fx:id="importeColumn" prefWidth="93.0" text="Importe" />
+      <TableColumn fx:id="autorColumn" prefWidth="105.0" text="Autor" />
+      <TableColumn fx:id="depositoColumn" prefWidth="130.0" text="Depósito Legal" />
+   </columns>
+   <contextMenu>
+      <ContextMenu>
+        <items>
+          <MenuItem fx:id="actualizarMenu" mnemonicParsing="false" onAction="#onActualizar" text="Actualizar" />
+        </items>
+      </ContextMenu>
+   </contextMenu>
+</TableView>

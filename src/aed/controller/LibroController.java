@@ -299,8 +299,7 @@ public class LibroController {
 
 		try {
 			session.beginTransaction();
-			session.createQuery("DELETE FROM Libro WHERE codLibro = ?")
-					.setInteger(0, librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
+			session.delete(librosTable.getSelectionModel().getSelectedItem());
 			session.getTransaction().commit();
 			cargarLibros();
 		} catch (Exception e) {

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="autoresTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+  <columns>
+    <TableColumn fx:id="codColumn" prefWidth="75.0" text="codAutor" />
+    <TableColumn fx:id="nombreColumn" prefWidth="171.2135948" text="nombreAutor" />
+  </columns>
+   <contextMenu>
+      <ContextMenu fx:id="menuLibros">
+         <items>
+            <MenuItem fx:id="addAutor" mnemonicParsing="false" onAction="#onAddAutor" text="Añadir Autor" />
+            <MenuItem fx:id="delAutor" mnemonicParsing="false" onAction="#onDelAutor" text="Eliminar Autor(s)" />
+         </items>
+      </ContextMenu>
+   </contextMenu>
+</TableView>

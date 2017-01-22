@@ -45,7 +45,7 @@ public class Libro implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "codLibro")
 	private List<Ejemplar> ejemplares = new ArrayList<Ejemplar>();
 
-	@OneToOne(cascade = { javax.persistence.CascadeType.ALL })
+	@OneToOne
 	@PrimaryKeyJoinColumn
 	private DepositoLegal codLibroDeposito;
 
