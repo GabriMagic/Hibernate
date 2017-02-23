@@ -142,6 +142,7 @@ public class LibroController {
 		depositoText.disableProperty().bind(depositoCheck.selectedProperty().not());
 		addAutor.disableProperty().bind(librosTable.getSelectionModel().selectedItemProperty().isNull());
 		mostrarAutores.disableProperty().bind(librosTable.getSelectionModel().selectedItemProperty().isNull());
+		confirmLibroAutorButton.disableProperty().bind(autoresCombo.valueProperty().isNull());
 	}
 
 	private void updateNombre(CellEditEvent<Libro, String> e) {
@@ -161,6 +162,8 @@ public class LibroController {
 				session.update(e.getRowValue());
 				session.getTransaction().commit();
 				cargarLibros();
+			} else {
+
 			}
 		} catch (Exception e1) {
 			messageAlert.setAlertType(AlertType.ERROR);
@@ -168,7 +171,6 @@ public class LibroController {
 			messageAlert.setHeaderText("Error al insertar el nuevo ISBN.");
 			messageAlert.setContentText("Ya existe un libro con el ISBN: " + e.getNewValue());
 			messageAlert.show();
-			session.getTransaction().rollback();
 			cargarLibros();
 		}
 	}
@@ -232,10 +234,7 @@ public class LibroController {
 		Iterator<?> iterator = query.iterate();
 		while (iterator.hasNext()) {
 			Object[] result = (Object[]) iterator.next();
-
-			Autor au = (Autor) result[1];
-
-			autores.add(au);
+			autores.add((Autor) result[1]);
 		}
 
 		listaAutores.setItems(FXCollections.observableArrayList(autores));
@@ -310,28 +309,7 @@ public class LibroController {
 			messageAlert.setContentText("¿Desea eliminar todos sus ejemplares?");
 
 			if (messageAlert.showAndWait().get() == ButtonType.OK) {
-
 				try {
-					// session.beginTransaction();
-					// session.createQuery("DELETE FROM Ejemplar WHERE codLibro
-					// = ?")
-					// .setInteger(0,
-					// librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
-					// session.getTransaction().commit();
-					//
-					// session.beginTransaction();
-					// session.createQuery("DELETE FROM DepositoLegal WHERE
-					// codLibroDeposito = ?")
-					// .setInteger(0,
-					// librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
-					// session.getTransaction().commit();
-					//
-					// session.beginTransaction();
-					// session.createQuery("DELETE FROM LibrosAutores WHERE
-					// codLibro = ?").setInteger(0,
-					// librosTable.getSelectionModel().getSelectedItem().getCodLibro()).executeUpdate();
-					// session.getTransaction().commit();
-
 					session.delete(librosTable.getSelectionModel().getSelectedItem());
 					session.getTransaction().commit();
 				} catch (Exception e1) {

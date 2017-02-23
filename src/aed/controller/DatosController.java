@@ -13,10 +13,8 @@ import aed.model.Ejemplar;
 import aed.model.Libro;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -50,9 +48,6 @@ public class DatosController {
 	@FXML
 	private TableColumn<Datos, DepositoLegal> depositoColumn;
 
-	@FXML
-	private MenuItem actualizarMenu;
-
 	private Session session;
 	private ObservableList<Datos> listaDatos;
 
@@ -76,31 +71,22 @@ public class DatosController {
 		cargarTodos();
 	}
 
-	@FXML
-	void onActualizar(ActionEvent event) {
-		librosTable.getItems().removeAll(listaDatos);
-		cargarTodos();
-	}
-
 	public void cargarTodos() {
 
 		listaDatos.removeAll(listaDatos);
 
-		Query query = session.createQuery("FROM LibrosAutores la " 
-				+ "RIGHT JOIN la.codLibro li "
-				+ "LEFT JOIN li.codLibroDeposito dl " 
-				+ "LEFT JOIN li.ejemplares ej " 
-				+ "LEFT JOIN la.codAutor au ");
+		Query query = session.createQuery("FROM LibrosAutores la " + "RIGHT JOIN la.codLibro li "
+				+ "LEFT JOIN li.codLibroDeposito dl " + "LEFT JOIN li.ejemplares ej " + "LEFT JOIN la.codAutor au ");
 
 		Iterator<?> datosList = query.iterate();
 
 		while (datosList.hasNext()) {
-			
+
 			Object[] result = (Object[]) datosList.next();
-			
+
 			Libro li = (Libro) result[1];
-			DepositoLegal dl = (DepositoLegal) result[2];
-			Ejemplar ej = (Ejemplar) result[3];
+			Ejemplar ej = (Ejemplar) result[2];
+			DepositoLegal dl = (DepositoLegal) result[3];
 			Autor au = (Autor) result[4];
 
 			Datos datos = new Datos(ej, li, au, dl);

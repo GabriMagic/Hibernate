@@ -77,7 +77,7 @@ public class AutorController {
 
 		confirmButton.disableProperty()
 				.bind(codigoText.textProperty().isEmpty().and(nombreText.textProperty().isEmpty()));
-
+		delAutor.disableProperty().bind(autoresTable.getSelectionModel().selectedItemProperty().isNull());
 	}
 
 	@FXML
@@ -114,7 +114,10 @@ public class AutorController {
 
 	@FXML
 	void onDelAutor(ActionEvent event) {
-
+			session.beginTransaction();
+			session.delete(autoresTable.getSelectionModel().getSelectedItem());
+			session.getTransaction().commit();
+			cargarAutores();
 	}
 
 	@SuppressWarnings("unchecked")

@@ -34,6 +34,13 @@ public class Libro implements Serializable {
 	@Column(columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP")
 	private Date fechaIntro;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "codLibro")
+	private List<Ejemplar> ejemplares = new ArrayList<Ejemplar>();
+
+	@OneToOne(cascade = { javax.persistence.CascadeType.ALL })
+	@PrimaryKeyJoinColumn
+	private DepositoLegal codLibroDeposito;
+
 	public void setEjemplares(List<Ejemplar> ejemplares) {
 		this.ejemplares = ejemplares;
 	}
@@ -41,13 +48,6 @@ public class Libro implements Serializable {
 	public void setCodLibroDeposito(DepositoLegal codLibroDeposito) {
 		this.codLibroDeposito = codLibroDeposito;
 	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "codLibro")
-	private List<Ejemplar> ejemplares = new ArrayList<Ejemplar>();
-
-	@OneToOne
-	@PrimaryKeyJoinColumn
-	private DepositoLegal codLibroDeposito;
 
 	public int getCodLibro() {
 		return codLibro;

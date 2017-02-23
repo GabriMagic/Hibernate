@@ -21,7 +21,7 @@
 		<!-- Update si no existe lo crea Elimina y vuelve a crear el esquema de 
 			la base de datos al iniciar si siempre esta sin comentar cada vez que lo 
 			ejecuto crea las tablas -->
-		<property name="hbm2ddl.auto">update</property>
+		<property name="hbm2ddl.auto">create-drop</property>
 		<!-- Mapea las siguientes clases anotadas -->
 		<mapping class="aed.model.Libro" />
 		<mapping class="aed.model.Autor" />
